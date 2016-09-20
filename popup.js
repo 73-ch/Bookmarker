@@ -6,6 +6,7 @@ window.onload = function(){
 	  for (var i = 0; i < bookmarks.length; i++) {
 	    if (bookmarks[i].url){
 	      var link = document.createElement("a");
+	      var button = document.createElement("button");
 
 	      link.textContent = bookmarks[i].title;
 	      link.href = bookmarks[i].url;
