@@ -9,13 +9,14 @@
   },
 
   "background": {
-     "scripts": ["background.js"],
-     "persistent": false
+    "scripts": ["background.js"],
+    "persistent": false
   },
 
   "permissions" : [
     "tabs",
-     "bookmarks",
-     "activeTab"
+    "bookmarks",
+    "activeTab",
+    "storage"
  ]
   }
