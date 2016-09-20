@@ -1,11 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Tab Manager",
-<<<<<<< HEAD
   "version": "0",
-=======
-  "version": "0",
->>>>>>> b38c919b0a364a611ad2d793cb5c4907304a34e3
 
   "browser_action": {
     "default_popup":"popup.html",
