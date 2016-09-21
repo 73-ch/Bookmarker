@@ -4,16 +4,133 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<script type="text/javascript" src="popup.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i" rel="stylesheet">
 </head>
 <body>
-	<div id="container"></div>
+	<form id="search-keyword">
+		<input type="text" id="search-keyword-field" placeholder="search bookmarks..." autocomplete="off" />
+		<input type="submit" />
+	</form>
+	<div id="search-results-container"></div>
+	<div id="level-selection-container">
+		<p class="caption">current tab</p>
+		<button id="level-1">1</button>
+		<button id="level-2">2</button>
+		<button id="level-3">3</button>
+		<button id="level-4">4</button>
+		</form>
+	</div>
+	<div id="add-button-container">
+		<p class="caption">add new</p>
+		<svg version="1.1" baseProfile="tiny" id="add-button-svg"
+			 x="0px" y="0px" width="25px" height="25px" viewBox="0 0 25 25" xml:space="preserve">
+			<polygon points="25,10 15,10 15,0 10,0 10,10 0,10 0,15 10,15 10,25 15,25 15,15 25,15 "/>
+		</svg>
+	</div>
 </body>
 <style>
+	/*body and globals*/
 	body{
-		width: 200px;
+		width: 450px;
+		font-family: 'Open Sans', sans-serif;
+		padding:15px;
+		background-color: rgba(255, 255, 255, 0.9);
+		position:relative;
 	}
-	a{
-		display: block;
+	.caption {
+		font-size:10px;
+		text-transform: uppercase;
+		font-style: italic;
+	}
+	/*search field*/
+	input[type=text] {
+		font-size:1.5em;
+		color: #000;
+		width: 450px;
+		height: 50px;
+		box-sizing: border-box;
+		padding: 10px 15px;
+		border-radius: 25px;
+		border: 1px solid #c5d1d5;
+	}
+	input[type=text]:focus {
+		outline: 0;
+		box-shadow: 0 0 0.5px 1px #eeeeee;
+	}
+	::-webkit-input-placeholder {
+  	font-style: italic;
+		color: #bbc9cf;
+	}
+	input[type=submit] {
+		visibility: hidden;
+	}
+	/*search results*/
+	a.searchresult {
+		font-size: 1.2em;
+		display: table;
+		color:#161616;
+		text-decoration: none;
+		line-height: 1.8em;
+		position:relative;
+	}
+
+	a.searchresult:before {
+		content:"";
+		position: absolute;
+		bottom:0;
+		left:0;
+		width:0%;
+		border-bottom: 4px solid #60bcff;
+		transform:translateY(-5px);
+		transition:0.2s;
+		z-index: -1;
+	}
+	a.searchresult:hover:before {
+		width:100%;
+	}
+	#search-results-container {
+		width:410px;
+		padding:5px;
+		margin:auto;
+	}
+
+	/*level selection buttons*/
+	button {
+		width:70px;
+		height:70px;
+		display: inline-block;
+		padding:10px;
+		border: 1px solid #dfe4e4;
+		border-radius: 35px;
+		background-color: #eaeef0;
+		margin:5px;
+	}
+	button:hover {
+		background-color: #f1f4f6;
+	}
+	button:focus {
+		outline: none;
+	}
+	button:active {
+		background-color: #60bcff;
+	}
+
+	/*add new bookmarks button*/
+	#add-button-container {
+		/*height:25px;
+		width:25px;*/
+		position:absolute;
+		right:0;
+		bottom:0;
+		padding:15px;
+	}
+	#add-button-svg {
+		float:right;
+		fill:#2e2e2e;
+	}
+	#add-button-svg:hover {
+		fill:#60bcff;
+		transition:0.2s;
 	}
 </style>
 </html>
