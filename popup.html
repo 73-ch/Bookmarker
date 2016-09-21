@@ -12,7 +12,7 @@
 		<input type="submit" />
 	</form>
 	<div id="search-results-container"></div>
-	<div id="level-selection-container">
+	<div id="level-selection">
 		<p class="caption">current tab</p>
 		<button id="level-1">1</button>
 		<button id="level-2">2</button>
@@ -20,9 +20,9 @@
 		<button id="level-4">4</button>
 		</form>
 	</div>
-	<div id="add-button-container">
+	<div id="add-new-bookmarks-button">
 		<p class="caption">add new</p>
-		<svg version="1.1" baseProfile="tiny" id="add-button-svg"
+		<svg version="1.1" baseProfile="tiny"
 			 x="0px" y="0px" width="25px" height="25px" viewBox="0 0 25 25" xml:space="preserve">
 			<polygon points="25,10 15,10 15,0 10,0 10,10 0,10 0,15 10,15 10,25 15,25 15,15 25,15 "/>
 		</svg>
@@ -116,7 +116,7 @@
 	}
 
 	/*add new bookmarks button*/
-	#add-button-container {
+	#add-new-bookmarks-button {
 		/*height:25px;
 		width:25px;*/
 		position:absolute;
@@ -124,11 +124,11 @@
 		bottom:0;
 		padding:15px;
 	}
-	#add-button-svg {
+	#add-new-bookmarks-button svg {
 		float:right;
 		fill:#2e2e2e;
 	}
-	#add-button-svg:hover {
+	#add-new-bookmarks-button svg:hover {
 		fill:#60bcff;
 		transition:0.2s;
 	}
