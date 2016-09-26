@@ -25,22 +25,25 @@ window.onload = function(){
 		});
 	});
 }
-	function sendBookmarkLevel(bookmark_id, level){
-		chrome.runtime.sendMessage({bookmark_level: {bookmark_id: bookmark_id, level: level}}, function(response){
-			console.log(response);
-		})
-	}
-	function getBookmarkLevel(bookmark_id){
-		return new Promise(function(resolve, reject){
-			chrome.runtime.sendMessage({getBookmarkLevel: {bookmark_id: bookmark_id}}, function(response){
-				resolve(response);
-			});
+// ブックマークのレベルをstorageに登録するためのメソッド
+function sendBookmarkLevel(bookmark_id, level){
+	chrome.runtime.sendMessage({bookmark_level: {bookmark_id: bookmark_id, level: level}}, function(response){
+		console.log(response);
+	})
+}
+// ブックマークのレベルをstorageから取ってくるメソッド
+function getBookmarkLevel(bookmark_id){
+	return new Promise(function(resolve, reject){
+		chrome.runtime.sendMessage({getBookmarkLevel: {bookmark_id: bookmark_id}}, function(response){
+			resolve(response);
 		});
-	}
-	function getStorage(){
-		return new Promise(function(resolve, reject){
-			chrome.runtime.sendMessage({getStorage: true}, function(response){
-				resolve(response);
-			});
+	});
+}
+// storage全体を取ってくるメソッド（他の拡張機能のデータも取ってくる　＊未検証）
+function getStorage(){
+	return new Promise(function(resolve, reject){
+		chrome.runtime.sendMessage({getStorage: true}, function(response){
+			resolve(response);
 		});
-	}
+	});
+}
