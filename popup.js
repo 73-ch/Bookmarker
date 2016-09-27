@@ -63,7 +63,7 @@ function searchBookmark(bookmarks, name, result){
 	bookmarks.forEach(function (val, index, array) {
 		if(val.children){
 			searchBookmark(val.children, name, result);
-		} else if(val.url && (new RegExp(name)).test(val.title) && result.length < 10) {
+		} else if(val.url && (new RegExp(name, 'i')).test(val.title) && result.length < 10) {
 			result.push(val);
 		}
 	});
