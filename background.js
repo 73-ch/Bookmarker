@@ -28,7 +28,8 @@ chrome.runtime.onMessage.addListener(
 
 function getBookmark(){
   return new Promise(function(resolve, reject){
-    chrome.bookmarks.getSubTree("1", function(callback){
+    chrome.bookmarks.getTree(function(callback){
+      console.log(callback);
       var desktop_bookmarks = callback[0].children; // bookmarkの階層が人によって違うかも？
       resolve(desktop_bookmarks);
     });
