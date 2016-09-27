@@ -1,11 +1,13 @@
 window.onload = function(){
 	var container = document.getElementById("search-results-container"); //changed ID
-	var form = document.getElementById("search-keyword");
-	form.addEventListener("submit", searchEvent, false);
+	var form = document.getElementById("search-keyword-field");
+	form.addEventListener("input", searchEvent, false);
 };
 
 function searchEvent(e) {
+	console.log("read");
 	var container = document.getElementById("search-results-container");
+	while(container.firstChild) container.removeChild(container.firstChild);
 	var keyword = document.getElementById("search-keyword-field").value;
 	getBookmarkAll().then(function (result) {
 		bookmark = searchBookmark(result, keyword);
