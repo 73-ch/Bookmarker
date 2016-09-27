@@ -10,14 +10,17 @@ function searchEvent(e) {
 	while(container.firstChild) container.removeChild(container.firstChild);
 	var keyword = document.getElementById("search-keyword-field").value;
 	getBookmarkAll().then(function (result) {
-		bookmark = searchBookmark(result, keyword);
-		console.log(bookmark);
-		var link = document.createElement("a");
-		var button = document.createElement("button");
-		link.setAttribute("class","searchresult");
-		link.textContent = bookmark.title;
-		link.href = bookmark.url;
-		container.appendChild(link);
+		var bookmarks = [];
+		searchBookmark(result, keyword, bookmarks);
+		console.log(bookmarks);
+		for(var i = 0; i < bookmarks.length; i++){
+			var link = document.createElement("a");
+			var button = document.createElement("button");
+			link.setAttribute("class","searchresult");
+			link.textContent = bookmarks[i].title;
+			link.href = bookmarks[i].url;
+			container.appendChild(link);
+		}
 	});
 	e.preventDefault();
 }
@@ -55,15 +58,13 @@ function getStorage(){
 }
 
 // bookmark検索メソッド
-function searchBookmark(bookmarks, name){
-	var result;
+function searchBookmark(bookmarks, name, result){
+	result = result || [];
 	bookmarks.forEach(function (val, index, array) {
 		if(val.children){
-			result = searchBookmark(val.children, name) || result;
-		} else if(val.url && val.title == name) {
-			result = val;
+			searchBookmark(val.children, name, result);
+		} else if(val.url && (new RegExp(name)).test(val.title) && result.length < 10) {
+			result.push(val);
 		}
 	});
-	// console.log(result);
-	return result;
 }
