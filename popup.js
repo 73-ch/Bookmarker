@@ -10,6 +10,9 @@ window.onload = function(){
 
 				link.setAttribute("class","searchresult"); //added class to search results
 	      link.textContent = bookmarks[i].title;
+				if (bookmarks[i].title.length > 50) {
+					link.textContent = link.textContent.substring(0,50) + " ...";
+				};
 	      link.href = bookmarks[i].url;
 
 	      container.appendChild(link);
