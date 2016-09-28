@@ -1,8 +1,8 @@
 var desktop_bookmarks;
 chrome.runtime.onMessage.addListener(
   function(message,sender,sendResponse) {
-    if (message.get_bookmark) {
-      getBookmark().then(function(bookmarks){
+    if (message.get_bookmark_all) {
+      getBookmarkAll().then(function(bookmarks){
         sendResponse({bookmarks: bookmarks});
       });
     };
@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(
     if (message.newBookmark){
       newBookmark(message.newBookmark.title, message.newBookmark.url, message.newBookmark.parent, message.newBookmark.level).then(function (result) {
         console.log(result);
-        sendResponse({result: result});
+        sendResponse(result);
       });
     }
     return true;
@@ -38,12 +38,16 @@ function newBookmark(title, url, parent, level) {
       'title': title,
       'url': url,
       "parentId": parent.to_i
+    }, function (bookmark) {
+      console.log(bookmark);
+      setBookmarkLevel(bookmark.id, level).then(function (result) {
+        resolve(bookmark);
+      });
     });
-    resolve('success');
   });
 }
 
-function getBookmark(){
+function getBookmarkAll(){
   return new Promise(function(resolve, reject){
     chrome.bookmarks.getTree(function(callback){
       console.log(callback);

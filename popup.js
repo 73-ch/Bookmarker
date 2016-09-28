@@ -30,8 +30,9 @@ function searchEvent(e) {
 
 function newBookmarkEvent(e) {
 	getCurrentTab().then(function (result) {
-		console.log(result);
-		newBookmark(result.title, result.url, 1, 1);
+		newBookmark(result.title, result.url, 2, 2).then(function (result) {
+			console.log(result);
+		});
 	});
 }
 
@@ -45,7 +46,7 @@ function getCurrentTab(){
 
 function getBookmarkAll() {
 	return new Promise(function (resolve, reject) {
-		chrome.runtime.sendMessage({get_bookmark: true}, function(response) {
+		chrome.runtime.sendMessage({get_bookmark_all: true}, function(response) {
 			var bookmarks = response.bookmarks;
 			resolve(bookmarks);
 		});
@@ -68,8 +69,14 @@ function getBookmarkLevel(bookmark_id){
 }
 
 function newBookmark(title, url, parent, level) {
-	chrome.runtime.sendMessage({newBookmark: {title: title, url: url, parent: parent, level: level}}, function (response) {
-		console.log(response);
+	return new Promise(function (resolve, reject) {
+		chrome.runtime.sendMessage({newBookmark: {title: title, url: url, parent: parent, level: level}}, function (bookmark) {
+			if (bookmark.id){
+				getBookmarkLevel(bookmark.id).then(function (bookmark_level) {
+					resolve([bookmark, bookmark_level]);
+				});
+			}
+		});
 	});
 }
 
