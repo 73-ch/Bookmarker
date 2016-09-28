@@ -1,7 +1,10 @@
 window.onload = function(){
 	var container = document.getElementById("search-results-container"); //changed ID
 	var form = document.getElementById("search-keyword-field");
+	var new_bookmark = document.getElementById("add-new-bookmarks-button");
+
 	form.addEventListener("input", searchEvent, false);
+	new_bookmark.addEventListener("click", newBookmarkEvent);
 };
 
 function searchEvent(e) {
@@ -23,6 +26,21 @@ function searchEvent(e) {
 		}
 	});
 	e.preventDefault();
+}
+
+function newBookmarkEvent(e) {
+	getCurrentTab().then(function (result) {
+		console.log(result);
+		newBookmark(result.title, result.url, 1, 1);
+	});
+}
+
+function getCurrentTab(){
+	return new Promise(function (resolve, reject) {
+		chrome.tabs.getSelected(null, function(tab){
+			resolve(tab);
+		});
+	});
 }
 
 function getBookmarkAll() {
@@ -48,6 +66,13 @@ function getBookmarkLevel(bookmark_id){
 		});
 	});
 }
+
+function newBookmark(title, url, parent, level) {
+	chrome.runtime.sendMessage({newBookmark: {title: title, url: url, parent: parent, level: level}}, function (response) {
+		console.log(response);
+	});
+}
+
 // storage全体を取ってくるメソッド（他の拡張機能のデータも取ってくる　＊未検証）
 function getStorage(){
 	return new Promise(function(resolve, reject){

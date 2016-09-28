@@ -22,9 +22,26 @@ chrome.runtime.onMessage.addListener(
         sendResponse({result: result});
       });
     };
+    if (message.newBookmark){
+      newBookmark(message.newBookmark.title, message.newBookmark.url, message.newBookmark.parent, message.newBookmark.level).then(function (result) {
+        console.log(result);
+        sendResponse({result: result});
+      });
+    }
     return true;
   }
 );
+
+function newBookmark(title, url, parent, level) {
+  return new Promise(function (resolve, reject) {
+    chrome.bookmarks.create({
+      'title': title,
+      'url': url,
+      "parentId": parent.to_i
+    });
+    resolve('success');
+  });
+}
 
 function getBookmark(){
   return new Promise(function(resolve, reject){
