@@ -13,10 +13,22 @@
     "persistent": false
   },
 
-  "permissions" : [
+  "permissions": [
     "tabs",
     "bookmarks",
     "activeTab",
     "storage"
- ]
+  ],
+
+  "commands": {
+    "_execute_browser_action": {
+      "description": "ポップアップウィンドウを表示",
+      "global": false,
+      "suggested_key": {
+        "default": "Alt+D",
+        "windows": "Alt+D",
+        "mac": "MacCtrl+D"
+      }
+    }
   }
+}
