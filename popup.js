@@ -5,12 +5,12 @@ window.onload = function(){
 };
 
 function searchEvent(e) {
-	console.log("read");
 	var container = document.getElementById("search-results-container");
 	while(container.firstChild) container.removeChild(container.firstChild);
 	var keyword = document.getElementById("search-keyword-field").value;
 	getBookmarkAll().then(function (result) {
 		var bookmarks = [];
+		console.log(result);
 		searchBookmark(result, keyword, bookmarks);
 		console.log(bookmarks);
 		for(var i = 0; i < bookmarks.length; i++){
