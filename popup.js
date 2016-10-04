@@ -68,3 +68,14 @@ function searchBookmark(bookmarks, name, result){
 		}
 	});
 }
+
+document.onload = function() {
+	console.log(document.activeElement);
+	document.getElementById("search-results-container").addEventListener("keyup", function(e) {
+		console.log("type");
+		event.preventDefault();
+		if (event.keyCode === 13) {
+			console.log("done")
+		}
+	})
+};
