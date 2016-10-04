@@ -22,8 +22,13 @@ function keyDown(e) {
 	if ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
 		if (e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') {
 			var bookmark = searchBookmarkUrl(all_bookmarks, current_tab.url);
-			if (!bookmark) return;
-			sendBookmarkLevel(bookmark.id, e.key);
+			if (bookmark) {
+				sendBookmarkLevel(bookmark.id, e.key);
+			}else {
+				newBookmark(current_tab.title, current_tab.url, 2, e.key).then(function (result) {
+					console.log(result);
+				});
+			}
 			window.close();
 		}
 	}
@@ -113,7 +118,7 @@ function getStorage(){
 }
 
 // bookmark検索メソッド
-function searchBookmarkName(bookmarks, name){
+function searchBookmarkName(bookmarks, name, result){
 	result = result || [];
 	bookmarks.forEach(function (val, index, array) {
 		if(val.children){
