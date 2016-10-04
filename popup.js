@@ -22,9 +22,9 @@ function keyDown(e) {
 	if ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
 		if (e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') {
 			var bookmark = searchBookmarkUrl(all_bookmarks, current_tab.url);
-			console.log(bookmark);
 			if (!bookmark) return;
 			sendBookmarkLevel(bookmark.id, e.key);
+			window.close();
 		}
 	}
 }
@@ -35,7 +35,6 @@ function searchEvent(e) {
 	var keyword = document.getElementById("search-keyword-field").value;
 	var result_bookmarks = [];
 	searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
-	console.log(result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
 		var link = document.createElement("a");
 		var button = document.createElement("button");
@@ -49,7 +48,6 @@ function searchEvent(e) {
 
 function newBookmarkEvent(e) {
 	if (current_tab == null) return;
-	console.log("read");
 	newBookmark(current_tab.title, current_tab.url, 2, 2).then(function (result) {
 		console.log(result);
 	});
@@ -92,7 +90,6 @@ function getBookmarkLevel(bookmark_id){
 function newBookmark(title, url, parent, level) {
 	return new Promise(function (resolve, reject) {
 		chrome.runtime.sendMessage({newBookmark: {title: title, url: url, parent: parent, level: level}}, function (bookmark) {
-			console.log(bookmark);
 			if (bookmark.id){
 				getBookmarkLevel(bookmark.id).then(function (bookmark_level) {
 					getBookmarkAll().then(function (bookmarks) {
@@ -134,7 +131,6 @@ function searchBookmarkUrl(bookmarks, url) {
 		if (val.children){
 			result = searchBookmarkUrl(val.children, url);
 		} else if(val.url == url){
-			console.log(val);
 			result = val;
 		}
 
