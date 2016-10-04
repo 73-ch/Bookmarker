@@ -66,11 +66,15 @@
 	/*search results*/
 	a.searchresult {
 		font-size: 1.2em;
-		display: table;
+		display: block;
 		color:#161616;
 		text-decoration: none;
 		line-height: 1.8em;
 		position:relative;
+		text-overflow: ellipsis;
+		overflow:hidden;
+		white-space: nowrap;
+		max-width:400px;
 	}
 	a.searchresult:before {
 		content:"";
@@ -94,6 +98,7 @@
 		width:410px;
 		padding:5px;
 		margin:auto;
+
 	}
 
 	/*level selection buttons*/

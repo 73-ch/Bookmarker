@@ -171,4 +171,3 @@ function searchBookmarkUrl(bookmarks, url) {
 
 	return false;
 }
-
