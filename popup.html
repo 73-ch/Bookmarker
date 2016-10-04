@@ -72,7 +72,6 @@
 		line-height: 1.8em;
 		position:relative;
 	}
-
 	a.searchresult:before {
 		content:"";
 		position: absolute;
@@ -86,6 +85,10 @@
 	}
 	a.searchresult:hover:before {
 		width:100%;
+	}
+	a:focus {
+		color: #2897c1;
+		outline:none;
 	}
 	#search-results-container {
 		width:410px;
@@ -109,9 +112,11 @@
 	}
 	button:focus {
 		outline: none;
+		box-shadow: 0 0 0.5px 1px #d9e6eb;
 	}
 	button:active {
 		background-color: #60bcff;
+		border: #58aeed;
 	}
 
 	/*add new bookmarks button*/

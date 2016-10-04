@@ -32,6 +32,10 @@ function keyDown(e) {
 			window.close();
 		}
 	}
+	if (event.keyCode === 13) {
+		e.preventDefault();
+		console.log("done")
+	}
 }
 
 function searchEvent(e) {
@@ -144,3 +148,4 @@ function searchBookmarkUrl(bookmarks, url) {
 
 	return false;
 }
+
