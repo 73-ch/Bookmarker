@@ -2,7 +2,9 @@ var current_tab,
 		all_bookmarks = [],
 		selected_content = 0,
 		storage,
-		result_bookmarks = [];
+		result_bookmarks = [],
+		all_windows = [],
+		all_tabs = [];
 window.onload = function(){
 	var container = document.getElementById("search-results-container"); //changed ID
 	var form = document.getElementById("search-keyword-field");
@@ -17,6 +19,12 @@ window.onload = function(){
 	});
 	getCurrentTab().then(function (current) {
 		current_tab = current;
+	});
+	getAllWindow().then(function (windows) {
+		all_windows = windows;
+		console.log(all_windows);
+		getAllTabs(all_windows, all_tabs);
+		console.log(all_tabs);
 	});
 };
 
@@ -35,9 +43,14 @@ function keyDown(e) {
 		}
 	}
 	if (e.keyCode == 13) {
-		var tab = result_bookmarks[selected_content];
-		if(tab){
-			createTab(tab.url);
+		var result = result_bookmarks[selected_content];
+		if(result){
+			if (result.tab){
+				console.log('read');
+				openTab(result);
+			}else if(result.bookmark) {
+				createTab(result.url);
+			}
 		}
 	}else if (e.keyCode == 9 || e.keyCode == 40){
 		console.log(selected_content);
@@ -60,6 +73,7 @@ function searchEvent(e) {
 	while(container.firstChild) container.removeChild(container.firstChild);
 	var keyword = document.getElementById("search-keyword-field").value;
 	result_bookmarks = [];
+	searchTabName(all_tabs, keyword, result_bookmarks);
 	searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
 		var link = document.createElement("a");
@@ -82,6 +96,13 @@ function newBookmarkEvent(e) {
 function createTab(url) {
 	chrome.tabs.create({url: url}, function (tab) {
 		console.log(tab);
+	});
+}
+
+function openTab(tab) {
+	console.log(tab);
+	chrome.windows.update(tab.windowId, {focused: true}, function (response) {
+		chrome.tabs.update(tab.id, {selected: true});
 	});
 }
 
@@ -151,6 +172,7 @@ function searchBookmarkName(bookmarks, name, result){
 		if(val.children){
 			searchBookmarkName(val.children, name, result);
 		} else if(val.url && (new RegExp(name, 'i')).test(val.title) && result.length < 10) {
+			val.bookmark = true;
 			result.push(val);
 		}
 	});
@@ -170,4 +192,33 @@ function searchBookmarkUrl(bookmarks, url) {
 	}
 
 	return false;
+}
+
+function searchTabName(tabs, name, result){
+	result = result || [];
+	for(let i = 0; i < tabs.length; i++){
+		let val = tabs[i];
+		if ((new RegExp(name, 'i')).test(val.title)){
+			val.tab = true;
+			result.push(val);
+		}
+		if (result.length >= 10)break;
+	}
+}
+
+function getAllTabs(windows, result) {
+	for(let i = 0; i < windows.length; i++){
+		for(let j = 0; j < windows[i].tabs.length; j++){
+			result.push(windows[i].tabs[j]);
+		}
+	}
+	return result;
+}
+
+function getAllWindow() {
+	return new Promise(function (resolve) {
+		chrome.runtime.sendMessage({getAllWindow: true}, function (response) {
+			resolve(response);
+		});
+	});
 }
