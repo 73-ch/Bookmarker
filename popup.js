@@ -1,12 +1,14 @@
 var current_tab,
 		all_bookmarks = [],
-		storage;
+		selected_content = 0,
+		storage,
+		result_bookmarks = [];
 window.onload = function(){
 	var container = document.getElementById("search-results-container"); //changed ID
 	var form = document.getElementById("search-keyword-field");
 	var new_bookmark = document.getElementById("add-new-bookmarks-button");
 
-	window.addEventListener("keydown", keyDown, false)
+	window.addEventListener("keydown", keyDown, false);
 	form.addEventListener("input", searchEvent, false);
 	new_bookmark.addEventListener("click", newBookmarkEvent);
 
@@ -32,9 +34,24 @@ function keyDown(e) {
 			window.close();
 		}
 	}
-	if (event.keyCode === 13) {
-		e.preventDefault();
-		console.log("done")
+	if (e.keyCode == 13) {
+		var tab = result_bookmarks[selected_content];
+		if(tab){
+			createTab(tab.url);
+		}
+	}else if (e.keyCode == 9 || e.keyCode == 40){
+		console.log(selected_content);
+		if (selected_content <= result_bookmarks.length){
+			selected_content++;
+		}else{
+			selected_content = 0;
+		}
+	}else if (e.keyCode == 38){
+		if (selected_content > 0){
+			selected_content--;
+		}else{
+			selected_content = result_bookmarks.length;
+		}
 	}
 }
 
@@ -42,7 +59,7 @@ function searchEvent(e) {
 	var container = document.getElementById("search-results-container");
 	while(container.firstChild) container.removeChild(container.firstChild);
 	var keyword = document.getElementById("search-keyword-field").value;
-	var result_bookmarks = [];
+	result_bookmarks = [];
 	searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
 		var link = document.createElement("a");
@@ -59,6 +76,12 @@ function newBookmarkEvent(e) {
 	if (current_tab == null) return;
 	newBookmark(current_tab.title, current_tab.url, 2, 2).then(function (result) {
 		console.log(result);
+	});
+}
+
+function createTab(url) {
+	chrome.tabs.create({url: url}, function (tab) {
+		console.log(tab);
 	});
 }
 
