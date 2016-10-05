@@ -168,29 +168,25 @@ function getStorage(){
 // bookmark検索メソッド
 function searchBookmarkName(bookmarks, name, result){
 	result = result || [];
-	bookmarks.forEach(function (val, index, array) {
-		if(val.children){
-			searchBookmarkName(val.children, name, result);
-		} else if(val.url && (new RegExp(name, 'i')).test(val.title) && result.length < 10) {
+	for (let i = 0; i < bookmarks.length; i++){
+		val = bookmarks[i];
+		if(val.url && (new RegExp(name, 'i')).test(val.title) && result.length < 10) {
 			val.bookmark = true;
 			result.push(val);
 		}
-	});
+	}
 }
 
 function searchBookmarkUrl(bookmarks, url) {
 	for (let i = 0; i < bookmarks.length; i++){
 		let val = bookmarks[i];
 		let result;
-		if (val.children){
-			result = searchBookmarkUrl(val.children, url);
-		} else if(val.url == url){
+		if(val.url == url){
 			result = val;
 		}
 
 		if(result) return result;
 	}
-
 	return false;
 }
 
