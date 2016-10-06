@@ -8,5 +8,8 @@ window.addEventListener('beforeunload', function(event) {
 });
 
 window.onload = function () {
-
+  chrome.runtime.sendMessage({openTab: window.location.href}, function (scrollY) {
+    console.log(scrollY);
+    window.scrollTo( 0,scrollY ) ;
+  });
 };
