@@ -13,6 +13,16 @@
     "persistent": false
   },
 
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+
   "permissions": [
     "tabs",
     "bookmarks",
