@@ -1,6 +1,7 @@
 var current_tab,
 		all_bookmarks = [],
 		selected_content = 0,
+		result_max = 10,
 		storage,
 		result_bookmarks = [],
 		all_windows = [],
@@ -31,7 +32,7 @@ window.onload = function(){
 function keyDown(e) {
 	if ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
 		if (e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') {
-			var bookmark = searchBookmarkUrl(all_bookmarks, current_tab.url);
+			var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
 			if (bookmark) {
 				sendBookmarkLevel(bookmark.id, e.key);
 			}else {
@@ -74,11 +75,13 @@ function searchEvent(e) {
 	var keyword = document.getElementById("search-keyword-field").value;
 	result_bookmarks = [];
 	searchTabName(all_tabs, keyword, result_bookmarks);
-	searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
+	if (result_bookmarks.length <= result_max) searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
+	if (result_bookmarks.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
 		var link = document.createElement("a");
 		var button = document.createElement("button");
 		link.setAttribute("class","searchresult");
+		if(!result_bookmarks[i].title) result_bookmarks[i].title = "(no name)";
 		link.textContent = result_bookmarks[i].title;
 		link.href = result_bookmarks[i].url;
 		container.appendChild(link);
@@ -170,14 +173,27 @@ function searchBookmarkName(bookmarks, name, result){
 	result = result || [];
 	for (let i = 0; i < bookmarks.length; i++){
 		val = bookmarks[i];
-		if(val.url && (new RegExp(name, 'i')).test(val.title) && result.length < 10) {
+		if(val.url && (new RegExp(name, 'i')).test(val.title)) {
 			val.bookmark = true;
-			result.push(val);
+			if (result.indexOf(val) < 0)result.push(val);
 		}
+		if (result.length >= result_max)break;
 	}
 }
 
-function searchBookmarkUrl(bookmarks, url) {
+function searchBookmarkUrl(bookmarks, name, result){
+	result = result || [];
+	for (let i = 0; i < bookmarks.length; i++){
+		val = bookmarks[i];
+		if(val.url && (new RegExp(name, 'i')).test(val.url)) {
+			val.bookmark = true;
+			if (result.indexOf(val) < 0)result.push(val);
+		}
+		if (result.length >= result_max)break;
+	}
+}
+
+function getBookmarkUrl(bookmarks, url) {
 	for (let i = 0; i < bookmarks.length; i++){
 		let val = bookmarks[i];
 		let result;
@@ -196,9 +212,9 @@ function searchTabName(tabs, name, result){
 		let val = tabs[i];
 		if ((new RegExp(name, 'i')).test(val.title)){
 			val.tab = true;
-			result.push(val);
+			if (result.indexOf(val) < 0)result.push(val);
 		}
-		if (result.length >= 10)break;
+		if (result.length >= result_max)break;
 	}
 }
 
