@@ -1,7 +1,7 @@
 var current_tab,
 		all_bookmarks = [],
 		selected_content = 0,
-		result_max = 10,
+		result_max = 20,
 		storage,
 		result_bookmarks = [],
 		all_windows = [],
