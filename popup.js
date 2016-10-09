@@ -16,6 +16,7 @@ window.onload = function(){
 	new_bookmark.addEventListener("click", newBookmarkEvent);
 
 	getBookmarkAll().then(function (bookmarks) {
+		console.log(bookmarks);
 		all_bookmarks = bookmarks;
 	});
 	getCurrentTab().then(function (current) {
@@ -36,7 +37,7 @@ function keyDown(e) {
 			if (bookmark) {
 				sendBookmarkLevel(bookmark.id, e.key);
 			}else {
-				newBookmark(current_tab.title, current_tab.url, 2, e.key).then(function (result) {
+				newBookmark(current_tab.title, current_tab.url, e.key).then(function (result) {
 					console.log(result);
 				});
 			}
@@ -91,7 +92,7 @@ function searchEvent(e) {
 
 function newBookmarkEvent(e) {
 	if (current_tab == null) return;
-	newBookmark(current_tab.title, current_tab.url, 2, 2).then(function (result) {
+	newBookmark(current_tab.title, current_tab.url, 2).then(function (result) {
 		console.log(result);
 	});
 }
@@ -143,9 +144,9 @@ function getBookmarkLevel(bookmark_id){
 	});
 }
 
-function newBookmark(title, url, parent, level) {
+function newBookmark(title, url, level) {
 	return new Promise(function (resolve, reject) {
-		chrome.runtime.sendMessage({newBookmark: {title: title, url: url, parent: parent, level: level}}, function (bookmark) {
+		chrome.runtime.sendMessage({newBookmark: {title: title, url: url, level: level}}, function (bookmark) {
 			if (bookmark.id){
 				getBookmarkLevel(bookmark.id).then(function (bookmark_level) {
 					getBookmarkAll().then(function (bookmarks) {
@@ -185,7 +186,8 @@ function searchBookmarkUrl(bookmarks, name, result){
 	result = result || [];
 	for (let i = 0; i < bookmarks.length; i++){
 		val = bookmarks[i];
-		if(val.url && (new RegExp(name, 'i')).test(val.url)) {
+		let url = val.url.replace(/http|https/, "");
+		if(url && (new RegExp(name, 'i')).test(url)) {
 			val.bookmark = true;
 			if (result.indexOf(val) < 0)result.push(val);
 		}
