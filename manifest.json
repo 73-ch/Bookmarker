@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Tab Manager",
-  "version": "0",
+  "version": "0.1",
 
   "browser_action": {
     "default_popup":"popup.html",
@@ -27,18 +27,27 @@
     "tabs",
     "bookmarks",
     "activeTab",
-    "storage"
+    "storage",
+    "management"
   ],
 
   "commands": {
     "_execute_browser_action": {
-      "description": "ポップアップウィンドウを表示",
       "global": false,
+      "suggested_key": [
+        {
+          "default": "Alt+D",
+          "windows": "Alt+D",
+          "mac": "MacCtrl+D"
+        }
+      ]
+    },
+    "delete_bookmark": {
       "suggested_key": {
-        "default": "Alt+D",
-        "windows": "Alt+D",
-        "mac": "MacCtrl+D"
-      }
+        "default": "Ctrl+I",
+        "mac": "Command+I"
+      },
+      "description": "ブックマークの削除"
     }
   }
 }
