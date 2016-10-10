@@ -51,7 +51,7 @@ function keyDown(e) {
 				console.log('read');
 				openTab(result);
 			}else if(result.bookmark) {
-				createTab(result.url);
+				createTab(result.url, e.shiftKey);
 			}
 		}
 	}else if (e.keyCode == 9 || e.keyCode == 40){
@@ -71,6 +71,7 @@ function keyDown(e) {
 }
 
 function searchEvent(e) {
+	selected_content = 0;
 	var container = document.getElementById("search-results-container");
 	while(container.firstChild) container.removeChild(container.firstChild);
 	var keyword = document.getElementById("search-keyword-field").value;
@@ -97,10 +98,17 @@ function newBookmarkEvent(e) {
 	});
 }
 
-function createTab(url) {
-	chrome.tabs.create({url: url}, function (tab) {
-		console.log(tab);
-	});
+function createTab(url, new_tab) {
+	if(new_tab){
+		chrome.tabs.create({url: url}, function (tab) {
+			console.log(tab);
+		});
+	}else{
+		chrome.tabs.update(current_tab.id, {url: url}, function (tab) {
+			console.log(tab);
+			window.close();
+		});
+	}
 }
 
 function openTab(tab) {
