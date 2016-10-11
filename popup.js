@@ -42,6 +42,10 @@ function keyDown(e) {
 				});
 			}
 			window.close();
+		}else if (e.keyCode == 80){
+			let name = document.getElementById("search-keyword-field").value;
+			newProject(name, current_tab.windowId);
+			e.preventDefault();
 		}
 	}
 	if (e.keyCode == 13) {
@@ -243,4 +247,8 @@ function getAllWindow() {
 			resolve(response);
 		});
 	});
+}
+
+function newProject(name, windowId) {
+	chrome.runtime.sendMessage({newProject: {name: name, windowId: windowId}});
 }
