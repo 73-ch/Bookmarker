@@ -5,7 +5,8 @@ var current_tab,
 		storage,
 		result_bookmarks = [],
 		all_windows = [],
-		all_tabs = [];
+		all_tabs = [],
+		all_projects = [];
 window.onload = function(){
 	var container = document.getElementById("search-results-container"); //changed ID
 	var form = document.getElementById("search-keyword-field");
@@ -28,6 +29,10 @@ window.onload = function(){
 		getAllTabs(all_windows, all_tabs);
 		console.log(all_tabs);
 	});
+	getAllProject().then(function (projects) {
+		all_projects = projects;
+		console.log(projects);
+	});
 };
 
 function keyDown(e) {
@@ -42,6 +47,10 @@ function keyDown(e) {
 				});
 			}
 			window.close();
+		}else if (e.keyCode == 80){
+			let name = document.getElementById("search-keyword-field").value;
+			newProject(name, current_tab.windowId);
+			e.preventDefault();
 		}
 	}
 	if (e.keyCode == 13) {
@@ -51,7 +60,7 @@ function keyDown(e) {
 				console.log('read');
 				openTab(result);
 			}else if(result.bookmark) {
-				createTab(result.url);
+				createTab(result.url, e.shiftKey);
 			}
 		}
 	}else if (e.keyCode == 9 || e.keyCode == 40){
@@ -71,11 +80,13 @@ function keyDown(e) {
 }
 
 function searchEvent(e) {
+	selected_content = 0;
 	var container = document.getElementById("search-results-container");
 	while(container.firstChild) container.removeChild(container.firstChild);
 	var keyword = document.getElementById("search-keyword-field").value;
 	result_bookmarks = [];
-	searchTabName(all_tabs, keyword, result_bookmarks);
+	if (all_tabs.length > 0)searchTabName(all_tabs, keyword, result_bookmarks);
+	if (result_bookmarks.length <= result_max && all_projects > 0) searchProjectName(all_projects, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
@@ -97,10 +108,17 @@ function newBookmarkEvent(e) {
 	});
 }
 
-function createTab(url) {
-	chrome.tabs.create({url: url}, function (tab) {
-		console.log(tab);
-	});
+function createTab(url, new_tab) {
+	if(new_tab){
+		chrome.tabs.create({url: url}, function (tab) {
+			console.log(tab);
+		});
+	}else{
+		chrome.tabs.update(current_tab.id, {url: url}, function (tab) {
+			console.log(tab);
+			window.close();
+		});
+	}
 }
 
 function openTab(tab) {
@@ -235,4 +253,32 @@ function getAllWindow() {
 			resolve(response);
 		});
 	});
+}
+
+function getAllProject() {
+	return new Promise(function (resolve) {
+		chrome.runtime.sendMessage({getAllProject: true}, function (response) {
+			resolve(response);
+		});
+	});
+}
+
+function newProject(name, windowId) {
+	return new Promise(function (resolve) {
+		chrome.runtime.sendMessage({newProject: {name: name, windowId: windowId}}, function (response) {
+			resolve(response);
+		});
+	});
+}
+
+function searchProjectName(projects, name, result) {
+	result = result || [];
+	for(let i = 0; i < projects.length; i++){
+		let val = projects[i];
+		if ((new RegExp(name, 'i')).test(val.title)){
+			val.tab = true;
+			if (result.indexOf(val) < 0)result.push(val);
+		}
+		if (result.length >= result_max)break;
+	}
 }
