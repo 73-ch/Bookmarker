@@ -90,13 +90,23 @@ function searchEvent(e) {
 	if (result_bookmarks.length <= result_max) searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
+	  var result = document.createElement("div");
+    result.setAttribute("class", "result");
 		var link = document.createElement("a");
-		var button = document.createElement("button");
 		link.setAttribute("class","searchresult");
 		if(!result_bookmarks[i].title) result_bookmarks[i].title = "(no name)";
 		link.textContent = result_bookmarks[i].title;
 		link.href = result_bookmarks[i].url;
-		container.appendChild(link);
+    result.appendChild(link);
+
+    var favicon = document.createElement("img");
+    if (result_bookmarks[i].tab){
+      favicon.src = result_bookmarks[i].favIconUrl;
+    }else if (result_bookmarks[i].bookmark){
+      favicon.src = "chrome://favicon/" + result_bookmarks[i].url;
+    }
+    result.appendChild(favicon);
+    container.appendChild(result);
 	}
 	e.preventDefault();
 }
