@@ -27,12 +27,27 @@
     - projectのwindow丸ごと作成のボタン
 
 -　bookmark管理画面
-    -
+    - title・url・level・projectの変更
 
 - user_settings
     - result_max
     - folders
     - result種類
     - commands
-        - commmand + i ブックマークの削除
+        - command + i
+            ブックマークの削除
+
+        popupの中
+        - command + 1~4
+            各レベルのブックマークの作成
+            レベルの変更
+            * 4はproject用だからどのprojectに登録するか選べるようにする必要あり
+        - command + p
+            search_barのnameのprojectを作成
+        - 上下キーとtab
+            検索結果を選ぶ
+        - enter
+            選ばれている検索結果を現在のタブで開く
+        - shift + enter
+            選ばれている検索結果を新しいのタブで開く
 

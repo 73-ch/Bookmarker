@@ -5,7 +5,8 @@ var current_tab,
 		storage,
 		result_bookmarks = [],
 		all_windows = [],
-		all_tabs = [];
+		all_tabs = [],
+		all_projects = [];
 window.onload = function(){
 	var container = document.getElementById("search-results-container"); //changed ID
 	var form = document.getElementById("search-keyword-field");
@@ -27,6 +28,10 @@ window.onload = function(){
 		console.log(all_windows);
 		getAllTabs(all_windows, all_tabs);
 		console.log(all_tabs);
+	});
+	getAllProject().then(function (projects) {
+		all_projects = projects;
+		console.log(projects);
 	});
 };
 
@@ -80,17 +85,28 @@ function searchEvent(e) {
 	while(container.firstChild) container.removeChild(container.firstChild);
 	var keyword = document.getElementById("search-keyword-field").value;
 	result_bookmarks = [];
-	searchTabName(all_tabs, keyword, result_bookmarks);
+	if (all_tabs.length > 0)searchTabName(all_tabs, keyword, result_bookmarks);
+	if (result_bookmarks.length <= result_max && all_projects > 0) searchProjectName(all_projects, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
+	  var result = document.createElement("div");
+    result.setAttribute("class", "result");
 		var link = document.createElement("a");
-		var button = document.createElement("button");
 		link.setAttribute("class","searchresult");
 		if(!result_bookmarks[i].title) result_bookmarks[i].title = "(no name)";
 		link.textContent = result_bookmarks[i].title;
 		link.href = result_bookmarks[i].url;
-		container.appendChild(link);
+    result.appendChild(link);
+
+    var favicon = document.createElement("img");
+    if (result_bookmarks[i].tab){
+      favicon.src = result_bookmarks[i].favIconUrl;
+    }else if (result_bookmarks[i].bookmark){
+      favicon.src = "chrome://favicon/" + result_bookmarks[i].url;
+    }
+    result.appendChild(favicon);
+    container.appendChild(result);
 	}
 	e.preventDefault();
 }
@@ -249,6 +265,30 @@ function getAllWindow() {
 	});
 }
 
+function getAllProject() {
+	return new Promise(function (resolve) {
+		chrome.runtime.sendMessage({getAllProject: true}, function (response) {
+			resolve(response);
+		});
+	});
+}
+
 function newProject(name, windowId) {
-	chrome.runtime.sendMessage({newProject: {name: name, windowId: windowId}});
+	return new Promise(function (resolve) {
+		chrome.runtime.sendMessage({newProject: {name: name, windowId: windowId}}, function (response) {
+			resolve(response);
+		});
+	});
+}
+
+function searchProjectName(projects, name, result) {
+	result = result || [];
+	for(let i = 0; i < projects.length; i++){
+		let val = projects[i];
+		if ((new RegExp(name, 'i')).test(val.title)){
+			val.tab = true;
+			if (result.indexOf(val) < 0)result.push(val);
+		}
+		if (result.length >= result_max)break;
+	}
 }
