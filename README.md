@@ -13,3 +13,26 @@
 - windowごとupdate
 	- project単位
 - 管理画面
+
+
+
+### todo
+- icon
+
+- popup
+    - 選択できるようにする
+    - 1~4のボタンで作成とレベルの表示・変更(label)
+    - favicon title url folder project
+    - 検索を小さく
+    - projectのwindow丸ごと作成のボタン
+
+-　bookmark管理画面
+    -
+
+- user_settings
+    - result_max
+    - folders
+    - result種類
+    - commands
+        - commmand + i ブックマークの削除
+
