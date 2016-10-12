@@ -2,13 +2,12 @@ var current_tab,
 		all_bookmarks = [],
 		selected_content = 0,
 		result_max = 20,
-		storage,
 		result_bookmarks = [],
 		all_windows = [],
 		all_tabs = [],
 		all_projects = [];
 window.onload = function(){
-	var container = document.getElementById("search-results-container"); //changed ID
+	var container = document.getElementById("search-results-container");
 	var form = document.getElementById("search-keyword-field");
 	var new_bookmark = document.getElementById("add-new-bookmarks-button");
 
@@ -17,7 +16,6 @@ window.onload = function(){
 	new_bookmark.addEventListener("click", newBookmarkEvent);
 
 	getBookmarkAll().then(function (bookmarks) {
-		console.log(bookmarks);
 		all_bookmarks = bookmarks;
 	});
 	getCurrentTab().then(function (current) {
@@ -25,13 +23,10 @@ window.onload = function(){
 	});
 	getAllWindow().then(function (windows) {
 		all_windows = windows;
-		console.log(all_windows);
 		getAllTabs(all_windows, all_tabs);
-		console.log(all_tabs);
 	});
 	getAllProject().then(function (projects) {
 		all_projects = projects;
-		console.log(projects);
 	});
 };
 
@@ -57,7 +52,6 @@ function keyDown(e) {
 		var result = result_bookmarks[selected_content];
 		if(result){
 			if (result.tab){
-				console.log('read');
 				openTab(result);
 			}else if(result.bookmark) {
 				createTab(result.url, e.shiftKey);
@@ -90,15 +84,28 @@ function searchEvent(e) {
 	if (result_bookmarks.length <= result_max) searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
+	  // bookmarkとかを格納するdiv
 	  var result = document.createElement("div");
     result.setAttribute("class", "result");
+    if (result_bookmarks[i].tab){
+      result.setAttribute("class", "tab");
+    }else if (result_bookmarks[i].bookmark){
+      result.setAttribute("class", "bookmark");
+    }
+    // bookmarkのtitle
 		var link = document.createElement("a");
 		link.setAttribute("class","searchresult");
-		if(!result_bookmarks[i].title) result_bookmarks[i].title = "(no name)";
+		if(!result_bookmarks[i].title) result_bookmarks[i].title = "(no name)";// titleがない場合の代わり
 		link.textContent = result_bookmarks[i].title;
 		link.href = result_bookmarks[i].url;
     result.appendChild(link);
-
+    // bookmarkのURL(projectにはない)
+    if(result_bookmarks[i].tab || result_bookmarks[i].bookmark){
+      var url = document.createElement("p");
+      url.textContent = result_bookmarks[i].url;
+      result.appendChild(url);
+    }
+    // bookmarkのfavicon(projectにはない)
     var favicon = document.createElement("img");
     if (result_bookmarks[i].tab){
       favicon.src = result_bookmarks[i].favIconUrl;
@@ -106,6 +113,7 @@ function searchEvent(e) {
       favicon.src = "chrome://favicon/" + result_bookmarks[i].url;
     }
     result.appendChild(favicon);
+
     container.appendChild(result);
 	}
 	e.preventDefault();
