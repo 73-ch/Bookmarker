@@ -55,6 +55,8 @@ function keyDown(e) {
 				openTab(result);
 			}else if(result.bookmark) {
 				createTab(result.url, e.shiftKey);
+			}else if(result.project){
+				openProject(result.id);
 			}
 		}
 	}else if (e.keyCode == 9 || e.keyCode == 40){
@@ -80,7 +82,7 @@ function searchEvent(e) {
 	var keyword = document.getElementById("search-keyword-field").value;
 	result_bookmarks = [];
 	if (all_tabs.length > 0)searchTabName(all_tabs, keyword, result_bookmarks);
-	if (result_bookmarks.length <= result_max && all_projects > 0) searchProjectName(all_projects, keyword, result_bookmarks);
+	if (result_bookmarks.length <= result_max && all_projects.length > 0) searchProjectName(all_projects, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
@@ -294,9 +296,13 @@ function searchProjectName(projects, name, result) {
 	for(let i = 0; i < projects.length; i++){
 		let val = projects[i];
 		if ((new RegExp(name, 'i')).test(val.title)){
-			val.tab = true;
+			val.project = true;
 			if (result.indexOf(val) < 0)result.push(val);
 		}
 		if (result.length >= result_max)break;
 	}
+}
+
+function openProject(project_id) {
+	chrome.runtime.sendMessage({openProject: {project_id: project_id}});
 }
