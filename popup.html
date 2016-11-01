@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
 	<script type="text/javascript" src="popup.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i" rel="stylesheet">
 </head>
@@ -41,6 +42,9 @@
 		text-transform: uppercase;
 		font-style: italic;
 	}
+	.selected {
+		background-color:red;
+	}
 	/*search field*/
 	input[type=text] {
 		font-size:1.5em;
@@ -64,9 +68,15 @@
 		visibility: hidden;
 	}
 	/*search results*/
+	.sr-entry {
+		max-width:400px;
+		display: flex;
+		flex-direction: column;
+		padding-bottom:10px;
+	}
 	a.searchresult {
 		font-size: 1.2em;
-		display: block;
+		display: table-cell;
 		color:#161616;
 		text-decoration: none;
 		line-height: 1.8em;
@@ -74,7 +84,7 @@
 		text-overflow: ellipsis;
 		overflow:hidden;
 		white-space: nowrap;
-		max-width:400px;
+		max-width:370px;
 	}
 	a.searchresult:before {
 		content:"";
@@ -98,7 +108,20 @@
 		width:410px;
 		padding:5px;
 		margin:auto;
-
+	}
+	.favicon {
+		float:left;
+		width:20px;
+		padding-right:5px;
+	}
+	.url-text {
+		color: #c8cfd0;
+		padding:0;
+		margin:0;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-style: oblique;
+		overflow: hidden;
 	}
 
 	/*level selection buttons*/

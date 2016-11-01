@@ -19,7 +19,7 @@
         "http://*/*",
         "https://*/*"
       ],
-      "js": ["content.js"]
+      "js": ["jquery-3.1.1.min.js","content.js"]
     }
   ],
 

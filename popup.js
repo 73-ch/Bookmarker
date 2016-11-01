@@ -1,8 +1,12 @@
+var test = $("#search-results-container");
+console.log(test);
+
 var current_tab,
 		all_bookmarks = [],
-		selected_content = -1,
+		selected_content = 0,
 		result_max = 20,
 		result_bookmarks = [],
+		result_htmls = [],
 		all_windows = [],
 		all_tabs = [],
 		all_projects = [];
@@ -37,7 +41,7 @@ window.onload = function(){
 function keyDown(e) {
 	console.log(e.keyCode);
 	if ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
-		if (e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') {
+		if (e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') { //levels
 			var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
 			if (bookmark) {
 				sendBookmarkLevel(bookmark.id, e.key);
@@ -47,13 +51,13 @@ function keyDown(e) {
 				});
 			}
 			window.close();
-		}else if (e.keyCode == 80){
+		}else if (e.keyCode == 80){ //80 = p
 			let name = document.getElementById("search-keyword-field").value;
 			newProject(name, current_tab.windowId);
 			e.preventDefault();
 		}
 	}
-	if (e.keyCode == 13) {
+	if (e.keyCode == 13) { //13 = enter
 		var result = result_bookmarks[selected_content];
 		if(result){
 			if (result.tab){
@@ -65,25 +69,31 @@ function keyDown(e) {
 			}
 			e.preventDefault();
 		}
-	}else if (e.keyCode == 9 || e.keyCode == 40){
+	}else if (e.keyCode == 9 || e.keyCode == 40){ //9 = tab, 40 = down arrow
+		// result_htmls[selected_content].removeClass("selected");
 		console.log(selected_content);
 		if (selected_content <= result_bookmarks.length){
+			var selected_element = document.getElementsByClassName("sr-entry")[selected_content];
+			selected_element.setAttribute("class","hover");
 			selected_content++;
 		}else{
 			selected_content = 0;
 		}
-	}else if (e.keyCode == 38){
+		// result_htmls[selected_content].addClass("selected");
+	}else if (e.keyCode == 38){ //38 = up arrow
+		// result_htmls[selected_content].removeClass("selected");
 		if (selected_content > 0){
 			selected_content--;
 		}else{
 			selected_content = result_bookmarks.length;
 		}
+		result_htmls[selected_content].addClass("selected");
 	}
 }
 
 function searchEvent(e) {
 	selected_content = 0;
-	var container = document.getElementById("search-results-container");
+	var container = $("#search-results-container");
 	while(container.firstChild) container.removeChild(container.firstChild);
 	var keyword = document.getElementById("search-keyword-field").value;
 	result_bookmarks = [];
@@ -96,32 +106,37 @@ function searchEvent(e) {
 	  var result = document.createElement("div");
     result.setAttribute("class", "result");
     if (result_bookmarks[i].tab){
-      result.setAttribute("class", "tab");
+      result.setAttribute("class", "tab sr-entry");
     }else if (result_bookmarks[i].bookmark){
-      result.setAttribute("class", "bookmark");
+      result.setAttribute("class", "bookmark sr-entry");
     }
+		var titlediv = document.createElement("div");
+		result.appendChild(titlediv);
+		// bookmarkのfavicon(projectにはない)
+    var favicon = document.createElement("img");
+		favicon.setAttribute("class","favicon");
+    if (result_bookmarks[i].tab){
+      favicon.src = result_bookmarks[i].favIconUrl;
+    }else if (result_bookmarks[i].bookmark){
+      favicon.src = "http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(result_bookmarks[i].url);
+    }
+    titlediv.appendChild(favicon);
     // bookmarkのtitle
 		var link = document.createElement("a");
 		link.setAttribute("class","searchresult");
 		if(!result_bookmarks[i].title) result_bookmarks[i].title = "(no name)";// titleがない場合の代わり
 		link.textContent = result_bookmarks[i].title;
 		link.href = result_bookmarks[i].url;
-    result.appendChild(link);
+    titlediv.appendChild(link);
     // bookmarkのURL(projectにはない)
     if(result_bookmarks[i].tab || result_bookmarks[i].bookmark){
       var url = document.createElement("p");
+			url.setAttribute("class","url-text");
       url.textContent = result_bookmarks[i].url;
       result.appendChild(url);
     }
-    // bookmarkのfavicon(projectにはない)
-    var favicon = document.createElement("img");
-    if (result_bookmarks[i].tab){
-      favicon.src = result_bookmarks[i].favIconUrl;
-    }else if (result_bookmarks[i].bookmark){
-      favicon.src = "chrome://favicon/" + result_bookmarks[i].url;
-    }
-    result.appendChild(favicon);
-
+		console.log(result);
+		result_htmls.push(result);
     container.appendChild(result);
 	}
 	e.preventDefault();
