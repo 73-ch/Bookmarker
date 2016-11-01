@@ -41,7 +41,9 @@ function keyDown(e) {
 			if (bookmark) {
 				sendBookmarkLevel(bookmark.id, e.key);
 			}else {
-				newBookmark(current_tab.title, current_tab.url, e.key).then(function (result) {
+				let name = document.getElementById("search-keyword-field").value;
+				if (name.length <= 0)name = current_tab.title;
+				newBookmark(name, current_tab.url, e.key).then(function (result) {
 					console.log(result);
 				});
 			}
