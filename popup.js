@@ -26,7 +26,11 @@ window.onload = function(){
 		getAllTabs(all_windows, all_tabs);
 	});
 	getAllProject().then(function (projects) {
-		all_projects = projects;
+		if (projects){
+			all_projects = projects;
+		}else{
+			all_projects = [];
+		}
 	});
 };
 
@@ -58,6 +62,7 @@ function keyDown(e) {
 			}else if(result.project){
 				openProject(result.id);
 			}
+			e.preventDefault();
 		}
 	}else if (e.keyCode == 9 || e.keyCode == 40){
 		console.log(selected_content);
