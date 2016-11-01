@@ -70,7 +70,7 @@ function keyDown(e) {
 			e.preventDefault();
 		}
 	}else if (e.keyCode == 9 || e.keyCode == 40){ //9 = tab, 40 = down arrow
-		// result_htmls[selected_content].removeClass("selected");
+		result_htmls[selected_content].removeClass("selected");
 		console.log(selected_content);
 		if (selected_content <= result_bookmarks.length){
 			var selected_element = document.getElementsByClassName("sr-entry")[selected_content];
@@ -79,9 +79,9 @@ function keyDown(e) {
 		}else{
 			selected_content = 0;
 		}
-		// result_htmls[selected_content].addClass("selected");
+		result_htmls[selected_content].addClass("selected");
 	}else if (e.keyCode == 38){ //38 = up arrow
-		// result_htmls[selected_content].removeClass("selected");
+		result_htmls[selected_content].removeClass("selected");
 		if (selected_content > 0){
 			selected_content--;
 		}else{

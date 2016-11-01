@@ -1,15 +1,18 @@
 window.onload = function () {
-  chrome.runtime.sendMessage({openTab: window.location.href}, function (scrollY) {
-    window.scrollTo(0, scrollY ) ;
-  });
-  chrome.tabs.getCurrent(function (res) {
-    console.log(res);
-  });
-} ;
-
-window.addEventListener('beforeunload', function(event) {
   console.log('read');
+  chrome.runtime.sendMessage({openTab: window.location.href}, function (data) {
+    let scrollY = data["scroll"];
+    let level = data["level"];
+    console.log(data);
+    if (level > 1) {
+      window.scrollTo(0, scrollY);
+    }
+  });
+};
+
+window.addEventListener('beforeunload', function (event) {
   let scrollY = window.pageYOffset;
   chrome.runtime.sendMessage({closeTab: scrollY}, function (scrollY) {
+
   });
 });
