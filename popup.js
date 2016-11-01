@@ -1,6 +1,6 @@
 var current_tab,
 		all_bookmarks = [],
-		selected_content = 0,
+		selected_content = -1,
 		result_max = 20,
 		storage,
 		result_bookmarks = [],
@@ -31,6 +31,7 @@ window.onload = function(){
 };
 
 function keyDown(e) {
+	console.log(e.keyCode);
 	if ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
 		if (e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') {
 			var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
