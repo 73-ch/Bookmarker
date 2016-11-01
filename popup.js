@@ -1,12 +1,12 @@
 var test = $("#search-results-container");
 console.log(test);
 
-var current_tab,
-		all_bookmarks = [],
-		selected_content = 0,
-		result_max = 20,
-		result_bookmarks = [],
-		result_htmls = [],
+var current_tab,// 現在のタブの情報
+		all_bookmarks = [],// 全てのブックマークの情報
+		selected_content = 0,// 現在選ばれている検索結果の情報
+		result_max = 20,// 検索結果の上限(後でuser_settingで変えられるようにする予定)
+		result_bookmarks = [],// 検索結果のarray
+		result_htmls = [],// 検索結果のhtmlのarray(後でjQueryの配列に)
 		all_windows = [],
 		all_tabs = [],
 		all_projects = [];
@@ -39,7 +39,6 @@ window.onload = function(){
 };
 
 function keyDown(e) {
-	console.log(e.keyCode);
 	if ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
 		if (e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') { //levels
 			var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
@@ -70,24 +69,23 @@ function keyDown(e) {
 			e.preventDefault();
 		}
 	}else if (e.keyCode == 9 || e.keyCode == 40){ //9 = tab, 40 = down arrow
-		result_htmls[selected_content].removeClass("selected");
-		console.log(selected_content);
+		$(result_htmls[selected_content]).toggleClass("selected", false);// それまでに選択されていたものから"selected"を削除
 		if (selected_content <= result_bookmarks.length){
 			var selected_element = document.getElementsByClassName("sr-entry")[selected_content];
-			selected_element.setAttribute("class","hover");
 			selected_content++;
 		}else{
 			selected_content = 0;
-		}
-		result_htmls[selected_content].addClass("selected");
+		}// 選択されるobjectを変える
+
+		$(result_htmls[selected_content]).toggleClass("selected", true);// 新しく選択されたobjectに"selected"をつける
 	}else if (e.keyCode == 38){ //38 = up arrow
-		result_htmls[selected_content].removeClass("selected");
+		$(result_htmls[selected_content]).toggleClass("selected", false);
 		if (selected_content > 0){
 			selected_content--;
 		}else{
 			selected_content = result_bookmarks.length;
 		}
-		result_htmls[selected_content].addClass("selected");
+		$(result_htmls[selected_content]).toggleClass("selected", true);
 	}
 }
 
@@ -97,13 +95,17 @@ function searchEvent(e) {
 	while(container.firstChild) container.removeChild(container.firstChild);
 	var keyword = document.getElementById("search-keyword-field").value;
 	result_bookmarks = [];
+	result_htmls = [];
 	if (all_tabs.length > 0)searchTabName(all_tabs, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max && all_projects.length > 0) searchProjectName(all_projects, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
+		// *ここから
+
+
 	  // bookmarkとかを格納するdiv
-	  var result = document.createElement("div");
+	  var result = document.createElement("div");// これを最初からjQueryのobjectでやる
     result.setAttribute("class", "result");
     if (result_bookmarks[i].tab){
       result.setAttribute("class", "tab sr-entry");
@@ -135,10 +137,17 @@ function searchEvent(e) {
       url.textContent = result_bookmarks[i].url;
       result.appendChild(url);
     }
-		console.log(result);
-		result_htmls.push(result);
-    container.appendChild(result);
+
+
+    // *ここまでをjQueryで綺麗にかける
+
+
+
+    // htmlのDOM ObjectのresultをjQueryで、jQueryのobjectにしてresult_htmlsに入れてる
+		if(i == 0)$(result).toggleClass("selected", true);// 一番最初に選択させておく
+		result_htmls.push($(result));
 	}
+	container.html(result_htmls);
 	e.preventDefault();
 }
 
