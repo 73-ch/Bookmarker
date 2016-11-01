@@ -28,7 +28,8 @@
     "bookmarks",
     "activeTab",
     "storage",
-    "management"
+    "management",
+    "chrome://favicon/"
   ],
 
   "commands": {
