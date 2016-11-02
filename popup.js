@@ -120,7 +120,9 @@ function searchEvent(e) {
     if (result_bookmarks[i].tab){
       favicon.src = result_bookmarks[i].favIconUrl;
     }else if (result_bookmarks[i].bookmark){
-      favicon.src = "http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(result_bookmarks[i].url);
+      var favicon_url = "http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(result_bookmarks[i].url);
+			// if (result_bookmarks[i].url )
+			favicon.src = favicon_url;
     }
     titlediv.appendChild(favicon);
     // bookmarkのtitle
