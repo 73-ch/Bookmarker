@@ -70,7 +70,7 @@ function keyDown(e) {
 		}
 	}else if (e.keyCode == 9 || e.keyCode == 40){ //9 = tab, 40 = down arrow
 		$(result_htmls[selected_content]).toggleClass("selected", false);// それまでに選択されていたものから"selected"を削除
-		if (selected_content <= result_bookmarks.length){
+		if (selected_content < result_bookmarks.length - 1){
 			var selected_element = document.getElementsByClassName("sr-entry")[selected_content];
 			selected_content++;
 		}else{
