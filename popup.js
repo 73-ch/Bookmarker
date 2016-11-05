@@ -83,7 +83,7 @@ function keyDown(e) {
 		if (selected_content > 0){
 			selected_content--;
 		}else{
-			selected_content = result_bookmarks.length;
+			selected_content = result_bookmarks.length - 1;
 		}
 		$(result_htmls[selected_content]).toggleClass("selected", true);
 	}
