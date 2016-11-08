@@ -4,7 +4,7 @@ console.log(test);
 var current_tab,// 現在のタブの情報
 		all_bookmarks = [],// 全てのブックマークの情報
 		selected_content = 0,// 現在選ばれている検索結果の情報
-		result_max = 20,// 検索結果の上限(後でuser_settingで変えられるようにする予定)
+		result_max = 10,// 検索結果の上限(後でuser_settingで変えられるようにする予定)
 		result_bookmarks = [],// 検索結果のarray
 		result_htmls = [],// 検索結果のhtmlのarray(後でjQueryの配列に)
 		all_windows = [],
@@ -17,7 +17,6 @@ window.onload = function(){
 
 	window.addEventListener("keydown", keyDown, false);
 	form.addEventListener("input", searchEvent, false);
-	new_bookmark.addEventListener("click", newBookmarkEvent);
 
 	$('#level-1, #level-2, #level-3, #level-4').click(function (e) {
 		var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
