@@ -312,7 +312,7 @@ function searchTabName(tabs, name, result){
 			val.tab = true;
 			if (result.indexOf(val) < 0)result.push(val);
 		}
-		if (result.length >= result_max)break;
+		if (result.length > result_max)break;
 	}
 }
 
