@@ -9,7 +9,8 @@ var current_tab,// 現在のタブの情報
 		result_htmls = [],// 検索結果のhtmlのarray(後でjQueryの配列に)
 		all_windows = [],
 		all_tabs = [],
-		all_projects = [];
+		all_projects = [],
+		new_project_bookmark = false;
 window.onload = function(){
 	var container = document.getElementById("search-results-container");
 	var form = document.getElementById("search-keyword-field");
@@ -19,15 +20,7 @@ window.onload = function(){
 	form.addEventListener("input", searchEvent, false);
 
 	$('#level-1, #level-2, #level-3, #level-4').click(function (e) {
-		var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
-		if (bookmark) {
-			sendBookmarkLevel(bookmark.id, $(this).data("level"));
-		}else {
-			newBookmark(current_tab.title, current_tab.url, $(this).data("level")).then(function (result) {
-				console.log(result);
-			});
-		}
-		window.close();
+		newBookmarkEvent($(this).data("level"));
 	});
 
 	$(document).on("click", ".searchresult", function(){
@@ -55,6 +48,7 @@ window.onload = function(){
 		getAllTabs(all_windows, all_tabs);
 	});
 	getAllProject().then(function (projects) {
+		console.log(projects);
 		if (projects){
 			all_projects = projects;
 		}else{
@@ -65,16 +59,12 @@ window.onload = function(){
 
 function keyDown(e) {
 	if ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
-		if (e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') { //levels
-			var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
-			if (bookmark) {
-				sendBookmarkLevel(bookmark.id, e.key);
-			}else {
-				newBookmark(current_tab.title, current_tab.url, e.key).then(function (result) {
-					console.log(result);
-				});
-			}
-			window.close();
+		if (e.key == '1' || e.key == '2' || e.key == '3') { //levels
+			newBookmarkEvent(e.key);
+		}else if(e.key == '4'){
+			console.log('read');
+			new_project_bookmark = true;
+			result_bookmarks = all_projects;
 		}else if (e.keyCode == 80){ //80 = p
 			let name = document.getElementById("search-keyword-field").value;
 			newProject(name, current_tab.windowId);
@@ -137,7 +127,9 @@ function searchEvent(e) {
       result.setAttribute("class", "tab sr-entry");
     }else if (result_bookmarks[i].bookmark){
       result.setAttribute("class", "bookmark sr-entry");
-    }
+    }else{
+			result.setAttribute("class", "sr-entry");
+		}
 		var titlediv = document.createElement("div");
 		result.appendChild(titlediv);
 		// bookmarkのfavicon(projectにはない)
@@ -179,11 +171,19 @@ function searchEvent(e) {
 	e.preventDefault();
 }
 
-function newBookmarkEvent(e) {
-	if (current_tab == null) return;
-	newBookmark(current_tab.title, current_tab.url, 2).then(function (result) {
-		console.log(result);
-	});
+function newBookmarkEvent(level) {
+	let title = current_tab.title;
+	let input = document.getElementById("search-keyword-field").value;
+	if (input.length > 0)title = input;
+	var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
+	if (bookmark) {
+		sendBookmarkLevel(bookmark.id, level);
+	}else {
+		newBookmark(title, current_tab.url, level).then(function (result) {
+			console.log(result);
+		});
+	}
+	window.close();
 }
 
 function createTab(url, new_tab) {
