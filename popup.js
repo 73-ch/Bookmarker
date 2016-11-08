@@ -19,6 +19,32 @@ window.onload = function(){
 	form.addEventListener("input", searchEvent, false);
 	new_bookmark.addEventListener("click", newBookmarkEvent);
 
+	$('#level-1, #level-2, #level-3, #level-4').click(function (e) {
+		var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
+		if (bookmark) {
+			sendBookmarkLevel(bookmark.id, $(this).data("level"));
+		}else {
+			newBookmark(current_tab.title, current_tab.url, $(this).data("level")).then(function (result) {
+				console.log(result);
+			});
+		}
+		window.close();
+	});
+
+	$(document).on("click", ".searchresult", function(){
+		var result = result_bookmarks[selected_content];
+		if(result){
+			if (result.tab){
+				openTab(result);
+			}else if(result.bookmark) {
+				createTab(result.url, false);
+			}else if(result.project){
+				openProject(result.id);
+			}
+			e.preventDefault();
+		}
+	});
+
 	getBookmarkAll().then(function (bookmarks) {
 		all_bookmarks = bookmarks;
 	});
@@ -98,6 +124,7 @@ function searchEvent(e) {
 	result_htmls = [];
 	if (all_tabs.length > 0)searchTabName(all_tabs, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max && all_projects.length > 0) searchProjectName(all_projects, keyword, result_bookmarks);
+	// if (result_bookmarks.length <= result_max && all_projects.length > 0) searchFolders(all_projects, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkName(all_bookmarks, keyword, result_bookmarks);
 	if (result_bookmarks.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, result_bookmarks);
 	for(var i = 0; i < result_bookmarks.length; i++){
