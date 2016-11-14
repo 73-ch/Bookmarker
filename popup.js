@@ -112,7 +112,7 @@ function keyDown(e) {
 		}
 		$(result_htmls[selected_content]).toggleClass("selected", true);
 	}
-}
+};
 
 function searchEvent(e) {
 	selected_content = 0;
@@ -129,54 +129,58 @@ function searchEvent(e) {
 	for(var i = 0; i < result_bookmarks.length; i++){
 		// *ここから
 
-
-	  // bookmarkとかを格納するdiv
-	  var result = document.createElement("div");// これを最初からjQueryのobjectでやる
-    result.setAttribute("class", "result");
+	  var result = $("<div>");
+    result.addClass("sr-entry");
     if (result_bookmarks[i].tab){
-      result.setAttribute("class", "tab sr-entry");
+      result.addClass("tab");
     }else if (result_bookmarks[i].bookmark){
-      result.setAttribute("class", "bookmark sr-entry");
+      result.addClass("bookmark");
+			console.log($(".sr-entry"));
     }
-		var titlediv = document.createElement("div");
-		result.appendChild(titlediv);
-		// bookmarkのfavicon(projectにはない)
-    var favicon = document.createElement("img");
-		favicon.setAttribute("class","favicon");
+		var titlediv = $("<div>");
+		result.append(titlediv);
+    var favicon = $("<img>");
+		favicon.addClass("favicon");
     if (result_bookmarks[i].tab){
-      favicon.src = result_bookmarks[i].favIconUrl;
+      favicon.attr("src",result_bookmarks[i].favIconUrl);
     }else if (result_bookmarks[i].bookmark){
       var favicon_url = "http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(result_bookmarks[i].url);
-			// if (result_bookmarks[i].url )
-			favicon.src = favicon_url;
+			favicon.attr("src", favicon_url);
     }
-    titlediv.appendChild(favicon);
-    // bookmarkのtitle
-		var link = document.createElement("a");
-		link.setAttribute("class","searchresult");
-		if(!result_bookmarks[i].title) result_bookmarks[i].title = "(no name)";// titleがない場合の代わり
-		link.textContent = result_bookmarks[i].title;
-		link.href = result_bookmarks[i].url;
-    titlediv.appendChild(link);
+    titlediv.append(favicon);
+		var link = $("<a>");
+		link.addClass("searchresult");
+		if(!result_bookmarks[i].title){
+			result_bookmarks[i].attr("title","(no name)")
+		};// titleがない場合の代わり
+		link.text(result_bookmarks[i].title);
+		link.attr("href",result_bookmarks[i].url);
+    titlediv.append(link);
     // bookmarkのURL(projectにはない)
     if(result_bookmarks[i].tab || result_bookmarks[i].bookmark){
-      var url = document.createElement("p");
-			url.setAttribute("class","url-text");
-      url.textContent = result_bookmarks[i].url;
-      result.appendChild(url);
+      var url = $("<p>");
+			url.addClass("url-text");
+      url.text(result_bookmarks[i].url);
+      result.append(url);
     }
 
-
-    // *ここまでをjQueryで綺麗にかける
-
-
-
     // htmlのDOM ObjectのresultをjQueryで、jQueryのobjectにしてresult_htmlsに入れてる
-		if(i == 0)$(result).toggleClass("selected", true);// 一番最初に選択させておく
+	if(i == 0)$(result).toggleClass("selected", true);// 一番最初に選択させておく
 		result_htmls.push($(result));
 	}
 	container.html(result_htmls);
 	e.preventDefault();
+
+	$('.sr-entry').mouseover(function(e){ //select search result entries on mouseover
+		$(this).toggleClass("selected",true);
+		console.log($("#search-results-container > .selected").not(this))
+		$("#search-results-container > .selected").not(this).toggleClass("selected",false);
+	}).mouseout(function(e){
+		$("#search-results-container").find(".selected").toggleClass("selected",false);
+	})
+
+	console.log($('.sr-entry'));
+
 }
 
 function newBookmarkEvent(e) {
