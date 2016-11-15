@@ -91,28 +91,13 @@ function keyDown(e) {
   }
 
   if (e.keyCode == 13) { //13 = enter
-    var result = results[selected_content];
-    if (result) {
-      if (result.type == "tab") {
-        openTab(result);
-      } else if (result.type == "bookmark") {
-        createTab(result.url, e.shiftKey);
-      } else if (result.type == "project") {
-        if (new_project_bookmark) {
-          newBookmark(current_tab.title, current_tab.url, 4, result.id);
-          window.close();
-        } else {
-          openProject(result.id);
-        }
-      }
-      e.preventDefault();
-    }
+    selectResult();
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
     $("#search-results-container > .selected").toggleClass("selected",false);
     if (selected_content < results.length - 1) {
-      var selected_element = document.getElementsByClassName("sr-entry")[selected_content];
       selected_content++;
-      window.scrollTo(0, result_htmls[selected_content]);
+      // window.scrollTo(0, result_htmls[selected_content].positionY());
+      console.log(result_htmls[selected_content]);
     } else {
       selected_content = 0;
     }// 選択されるobjectを変える
@@ -146,6 +131,24 @@ function createProjectBookmark() {
     result_htmls.push(result);
   }
   container.html(result_htmls);
+}
+
+function selectResult() {
+  var result = results[selected_content];
+  if (result) {
+    if (result.type == "tab") {
+      openTab(result);
+    } else if (result.type == "bookmark") {
+      createTab(result.url, e.shiftKey);
+    } else if (result.type == "project") {
+      if (new_project_bookmark) {
+        newBookmark(current_tab.title, current_tab.url, 4, result.id);
+        window.close();
+      } else {
+        openProject(result.id);
+      }
+    }
+  }
 }
 
 function searchEvent(e) {
@@ -184,6 +187,9 @@ function createResult(type, title, url, favicon_url, i) {
   let result = $("<div></div>", {
     "class": classes,
     on: {
+      click: function (e) {
+        selectResult();
+      },
       mouseover: function (e) {
         $("#search-results-container > .selected").not(this).toggleClass("selected",false);
         selected_content = i;
@@ -198,7 +204,7 @@ function createResult(type, title, url, favicon_url, i) {
   let name = $("<a></a>", {
       text: title,
       href: url,
-      "class": "search-result"
+      "class": "searchresult"
     });
   let favicon_obj, url_obj;
   if (type == "bookmark" || type == "tab") {
