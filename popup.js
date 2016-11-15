@@ -94,6 +94,7 @@ function keyDown(e) {
   if (e.keyCode == 13) { //13 = enter
     console.log(selected_content);
     selectResult(e.shiftKey);
+    e.preventDefault();
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
     $("#search-results-container > .selected").toggleClass("selected",false);
     if (selected_content < result_htmls.length - 1) {
