@@ -10,7 +10,8 @@ var current_tab,// 現在のタブの情報
   all_windows = [],
   all_tabs = [],
   all_projects = [],
-  new_project_bookmark = false;
+  new_project_bookmark = false,
+  labels = [];
 window.onload = function () {
   var container = document.getElementById("search-results-container");
   var form = document.getElementById("search-keyword-field");
@@ -91,24 +92,27 @@ function keyDown(e) {
   }
 
   if (e.keyCode == 13) { //13 = enter
-    selectResult();
+    console.log(selected_content);
+    selectResult(e.shiftKey);
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
     $("#search-results-container > .selected").toggleClass("selected",false);
-    if (selected_content < results.length - 1) {
+    if (selected_content < result_htmls.length - 1) {
       selected_content++;
       // window.scrollTo(0, result_htmls[selected_content].positionY());
       console.log(result_htmls[selected_content]);
+      if (labels.indexOf(selected_content) >= 0)selected_content++;
     } else {
-      selected_content = 0;
+      selected_content = 1;
     }// 選択されるobjectを変える
-
+    console.log(selected_content);
     $(result_htmls[selected_content]).toggleClass("selected", true);// 新しく選択されたobjectに"selected"をつける
   } else if (e.keyCode == 38) { //38 = up arrow
     $("#search-results-container > .selected").toggleClass("selected",false);
     if (selected_content > 0) {
       selected_content--;
+      if (labels.indexOf(selected_content) >= 0)selected_content--;
     } else {
-      selected_content = results.length - 1;
+      selected_content = result_htmls.length - 1;
     }
     $(result_htmls[selected_content]).toggleClass("selected", true);
   }
@@ -133,13 +137,13 @@ function createProjectBookmark() {
   container.html(result_htmls);
 }
 
-function selectResult() {
+function selectResult(new_tab) {
   var result = results[selected_content];
   if (result) {
     if (result.type == "tab") {
       openTab(result);
     } else if (result.type == "bookmark") {
-      createTab(result.url, e.shiftKey);
+      createTab(result.url, new_tab);
     } else if (result.type == "project") {
       if (new_project_bookmark) {
         newBookmark(current_tab.title, current_tab.url, 4, result.id);
@@ -152,8 +156,8 @@ function selectResult() {
 }
 
 function searchEvent(e) {
-  console.log(e);
-  selected_content = 0;
+  labels = [];
+  selected_content = 1;
   var container = $("#search-results-container");
   while (container.firstChild) container.removeChild(container.firstChild);
   var keyword = document.getElementById("search-keyword-field").value;
@@ -168,13 +172,25 @@ function searchEvent(e) {
     if (results.length <= result_max) searchBookmarkName(all_bookmarks, keyword, results);
     if (results.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, results);
   }
+  let before_type = null;
   for (var i = 0; i < results.length; i++) {
+    if (before_type != results[i].type){
+      let type_name = $("<h3></h3>", {
+        text: results[i].type
+      });
+      result_htmls.push(type_name);
+      labels.push(result_htmls.length - 1);
+    }
     if (!results[i].title) results[i].title = "(no name)";
 
-    let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl , i);
+    let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl , result_htmls.length);
 
     if (i == 0)$(result).toggleClass("selected", true);// 一番最初に選択させておく
     result_htmls.push(result);
+    before_type = results[i].type;
+  }
+  for (let i = 0; i < labels.length; i++){
+    results.splice(Number(labels[i]), 0, null);
   }
   container.html(result_htmls);
   e.preventDefault();
@@ -188,7 +204,7 @@ function createResult(type, title, url, favicon_url, i) {
     "class": classes,
     on: {
       click: function (e) {
-        selectResult();
+        selectResult(false);
       },
       mouseover: function (e) {
         $("#search-results-container > .selected").not(this).toggleClass("selected",false);
