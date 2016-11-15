@@ -13,10 +13,10 @@
 		<input type="text" id="search-keyword-field" placeholder="search bookmarks..." autocomplete="off" />
 	</form>
 	<div id="level-selection">
-		<button id="level-1" data-level="1">favorites</button>
-		<button id="level-2" data-level="2">check later</button>
-		<button id="level-3" data-level="3">others</button>
-		<button id="level-4" data-level="4">projects</button>
+		<img id="level-1" class="button-image" src="images/check.png" alt="check button"/>
+		<img id="level-2" class="button-image" src="images/favorite.png" alt="favorite button"/>
+		<img id="level-3" class="button-image" src="images/other.png" alt="other button"/>
+		<img id="level-4" class="button-image" src="images/project.png" alt="check button"/>
 	</div>
 </div>
 	<div id="search-results-container"></div>
@@ -127,13 +127,19 @@
 	#level-selection {
 		padding: 10px;
 	}
-	button {
-		height:35px;
+	.button-image {
+		height: 20px;
+		width:auto;
+		padding: 10px;
+		cursor: pointer;
+	}
+	.level-button {
 		display: inline-block;
 		padding:10px;
 		border: 1px solid #dfe4e4;
 		border-radius: 5px;
 		background-color: #eaeef0;
+		vertical-align: middle;
 		margin:5px;
 	}
 	button:hover {
