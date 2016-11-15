@@ -108,7 +108,7 @@ function keyDown(e) {
       e.preventDefault();
     }
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
-    $(result_htmls[selected_content]).toggleClass("selected", false);// それまでに選択されていたものから"selected"を削除
+    $("#search-results-container > .selected").toggleClass("selected",false);
     if (selected_content < results.length - 1) {
       var selected_element = document.getElementsByClassName("sr-entry")[selected_content];
       selected_content++;
@@ -119,7 +119,7 @@ function keyDown(e) {
 
     $(result_htmls[selected_content]).toggleClass("selected", true);// 新しく選択されたobjectに"selected"をつける
   } else if (e.keyCode == 38) { //38 = up arrow
-    $(result_htmls[selected_content]).toggleClass("selected", false);
+    $("#search-results-container > .selected").toggleClass("selected",false);
     if (selected_content > 0) {
       selected_content--;
     } else {
@@ -140,7 +140,7 @@ function createProjectBookmark() {
   result_htmls = [];
   searchProjectName(all_projects, keyword, results);
   for (let i = 0; i < results.length; i++) {
-    let result = createResult(results[i].type, results[i].title, null, null);
+    let result = createResult(results[i].type, results[i].title, null, null, i);
 
     if (i == 0)$(result).toggleClass("selected", true);// 一番最初に選択させておく
     result_htmls.push(result);
@@ -168,7 +168,7 @@ function searchEvent(e) {
   for (var i = 0; i < results.length; i++) {
     if (!results[i].title) results[i].title = "(no name)";
 
-    let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl);
+    let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl , i);
 
     if (i == 0)$(result).toggleClass("selected", true);// 一番最初に選択させておく
     result_htmls.push(result);
@@ -177,23 +177,25 @@ function searchEvent(e) {
   e.preventDefault();
 }
 
-function createResult(type, title, url, favicon_url) {
+function createResult(type, title, url, favicon_url, i) {
   let classes = "sr-entry";
   if (type == "bookmark")classes += " bookmark";
   if (type == "tab")classes += " tab";
-  let result = $("<div></div>", {"class": classes}),
-    label_div = $("<div></div>", {
-      on: {
-        mouseover: function (e) {
-          $(this).toggleClass("selected", true);
-          $("#search-results-container > .selected").not(this).toggleClass("selected",false);
-        },
-        mouseout: function (e) {
-          $(this).toggleClass("selected", false);
-        }
+  let result = $("<div></div>", {
+    "class": classes,
+    on: {
+      mouseover: function (e) {
+        $("#search-results-container > .selected").not(this).toggleClass("selected",false);
+        selected_content = i;
+        $(this).toggleClass("selected", true);
+      },
+      mouseout: function (e) {
+        $(this).toggleClass("selected", false);
       }
-    }),
-    name = $("<a></a>", {
+    }
+  });
+  let label_div = $("<div></div>");
+  let name = $("<a></a>", {
       text: title,
       href: url,
       "class": "url-text search-result"
