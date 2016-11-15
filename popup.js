@@ -14,12 +14,11 @@ var current_tab,// 現在のタブの情報
 window.onload = function () {
   var container = document.getElementById("search-results-container");
   var form = document.getElementById("search-keyword-field");
-  var new_bookmark = document.getElementById("add-new-bookmarks-button");
 
   window.addEventListener("keydown", keyDown, false);
   form.addEventListener("input", searchEvent, false);
 
-  $('#level-1, #level-2, #level-3').click(function (e) {
+  $('#level-1, #level-2, #level-3').click(function () {
     newBookmarkEvent($(this).data("level"));
   });
 
@@ -35,7 +34,7 @@ window.onload = function () {
     }
   });
 
-  $(document).on("click", ".searchresult", function () {
+  $(document).on("click", ".search-result", function () {
     var result = results[selected_content];
     if (result) {
       if (result.tab) {
@@ -112,6 +111,7 @@ function keyDown(e) {
     if (selected_content < results.length - 1) {
       var selected_element = document.getElementsByClassName("sr-entry")[selected_content];
       selected_content++;
+      window.scrollTo(0, result_htmls[selected_content]);
     } else {
       selected_content = 0;
     }// 選択されるobjectを変える
@@ -185,7 +185,7 @@ function createResult(type, title, url, favicon_url) {
     name = $("<a></a>", {
       text: title,
       href: url,
-      "class": "url-text searchresult"
+      "class": "url-text search-result"
     });
   let favicon_obj, url_obj;
   if (type == "bookmark" || type == "tab") {
@@ -225,14 +225,12 @@ function createTab(url, new_tab) {
     });
   } else {
     chrome.tabs.update(current_tab.id, {url: url}, function (tab) {
-      console.log(tab);
       window.close();
     });
   }
 }
 
 function openTab(tab) {
-  console.log(tab);
   chrome.windows.update(tab.windowId, {focused: true}, function (response) {
     chrome.tabs.update(tab.id, {selected: true});
   });
