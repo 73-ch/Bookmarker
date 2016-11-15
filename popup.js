@@ -196,7 +196,7 @@ function createResult(type, title, url, favicon_url) {
     name = $("<a></a>", {
       text: title,
       href: url,
-      "class": "url-text search-result"
+      "class": "search-result"
     });
   let favicon_obj, url_obj;
   if (type == "bookmark" || type == "tab") {
