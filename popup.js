@@ -1,10 +1,7 @@
-var test = $("#search-results-container");
-console.log(test);
-
 var current_tab,// 現在のタブの情報
   all_bookmarks = [],// 全てのブックマークの情報
   selected_content = 0,// 現在選ばれている検索結果の情報
-  result_max = 10,// 検索結果の上限(後でuser_settingで変えられるようにする予定)
+  result_max = 20,// 検索結果の上限(後でuser_settingで変えられるようにする予定)
   results = [],// 検索結果のarray
   result_htmls = [],// 検索結果のhtmlのarray(後でjQueryの配列に)
   all_windows = [],
@@ -35,7 +32,7 @@ window.onload = function () {
     }
   });
 
-  $(document).on("click", ".search-result", function () {
+  $(document).on("click", ".search-result", function (e) {
     var result = results[selected_content];
     if (result) {
       if (result.tab) {
@@ -60,7 +57,6 @@ window.onload = function () {
     getAllTabs(all_windows, all_tabs);
   });
   getAllProject().then(function (projects) {
-    console.log(projects);
     if (projects) {
       all_projects = projects;
     } else {
@@ -92,29 +88,27 @@ function keyDown(e) {
   }
 
   if (e.keyCode == 13) { //13 = enter
-    console.log(selected_content);
     selectResult(e.shiftKey);
     e.preventDefault();
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
     $("#search-results-container > .selected").toggleClass("selected",false);
     if (selected_content < result_htmls.length - 1) {
       selected_content++;
-      // window.scrollTo(0, result_htmls[selected_content].positionY());
-      console.log(result_htmls[selected_content]);
       if (labels.indexOf(selected_content) >= 0)selected_content++;
     } else {
       selected_content = 1;
     }// 選択されるobjectを変える
-    console.log(selected_content);
+    window.scrollTo(0, $(result_htmls[selected_content])[0].offsetTop - 102);
     $(result_htmls[selected_content]).toggleClass("selected", true);// 新しく選択されたobjectに"selected"をつける
   } else if (e.keyCode == 38) { //38 = up arrow
     $("#search-results-container > .selected").toggleClass("selected",false);
-    if (selected_content > 0) {
+    if (selected_content > 1) {
       selected_content--;
       if (labels.indexOf(selected_content) >= 0)selected_content--;
     } else {
       selected_content = result_htmls.length - 1;
     }
+    window.scrollTo(0, $(result_htmls[selected_content])[0].offsetTop - 102);
     $(result_htmls[selected_content]).toggleClass("selected", true);
   }
 }
@@ -185,7 +179,6 @@ function searchEvent(e) {
     if (!results[i].title) results[i].title = "(no name)";
 
     let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl , result_htmls.length);
-
     if (i == 0)$(result).toggleClass("selected", true);// 一番最初に選択させておく
     result_htmls.push(result);
     before_type = results[i].type;
