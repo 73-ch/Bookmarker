@@ -89,6 +89,7 @@ function keyDown(e) {
       e.preventDefault();
     }
   }
+
   if (e.keyCode == 13) { //13 = enter
     var result = results[selected_content];
     if (result) {
@@ -181,7 +182,17 @@ function createResult(type, title, url, favicon_url) {
   if (type == "bookmark")classes += " bookmark";
   if (type == "tab")classes += " tab";
   let result = $("<div></div>", {"class": classes}),
-    label_div = $("<div></div>"),
+    label_div = $("<div></div>", {
+      on: {
+        mouseover: function (e) {
+          $(this).toggleClass("selected", true);
+          $("#search-results-container > .selected").not(this).toggleClass("selected",false);
+        },
+        mouseout: function (e) {
+          $(this).toggleClass("selected", false);
+        }
+      }
+    }),
     name = $("<a></a>", {
       text: title,
       href: url,

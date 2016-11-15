@@ -8,17 +8,18 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i" rel="stylesheet">
 </head>
 <body>
+<div id="nav">
 	<form id="search-keyword">
 		<input type="text" id="search-keyword-field" placeholder="search bookmarks..." autocomplete="off" />
 	</form>
-	<div id="search-results-container"></div>
 	<div id="level-selection">
-		<p class="caption">current tab</p>
 		<button id="level-1" data-level="1">favorites</button>
 		<button id="level-2" data-level="2">check later</button>
 		<button id="level-3" data-level="3">others</button>
 		<button id="level-4" data-level="4">projects</button>
 	</div>
+</div>
+	<div id="search-results-container"></div>
 </body>
 <style>
 	/*body and globals*/
@@ -39,6 +40,13 @@
 	}
 	.selected p {
 		color:#adb9bf;
+	}
+	/*navigation*/
+	#nav {
+		position: fixed;
+		height:auto;
+		overflow: visible;
+		background-color: #fff;
 	}
 	/*search field*/
 	input[type=text] {
@@ -71,8 +79,8 @@
 		padding: 5px;
 		border-radius: 5px;
 	}
-	a.search-result {
-		font-size: 1.7em;
+	a.searchresult {
+		font-size: 13px;
 		display: table-cell;
 		color:#161616;
 		text-decoration: none;
@@ -83,28 +91,18 @@
 		white-space: nowrap;
 		max-width:370px;
 	}
-	a.search-result:before {
-		content:"";
-		position: absolute;
-		bottom:0;
-		left:0;
-		width:0%;
-		border-bottom: 4px solid #60bcff;
-		transform:translateY(-5px);
-		transition:0.2s;
-		z-index: -1;
-	}
-	a.search-result:hover:before {
-		width:100%;
-	}
 	a:focus {
 		color: #2897c1;
 		outline:none;
 	}
 	#search-results-container {
-		width:410px;
+		position: absolute;
+		top:110px;
+		width:450px;
 		padding:5px;
 		margin:auto;
+		overflow: hidden;
+		z-index: -1;
 	}
 	.favicon {
 		float:left;
@@ -121,9 +119,11 @@
 		overflow: hidden;
 	}
 
-	/*level selection buttons*/
+	/*level selection*/
+	#level-selection {
+		padding: 10px;
+	}
 	button {
-		/*width:40px;*/
 		height:35px;
 		display: inline-block;
 		padding:10px;
