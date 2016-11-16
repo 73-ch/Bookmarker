@@ -11,7 +11,8 @@ var current_tab,// 現在のタブの情報
   all_tabs = [],
   all_projects = [],
   new_project_bookmark = false,
-  labels = [];
+  labels = [],
+  frag = ["search", 0];
 window.onload = function () {
   var container = document.getElementById("search-results-container");
   var form = document.getElementById("search-keyword-field");
@@ -92,8 +93,11 @@ function keyDown(e) {
   }
 
   if (e.keyCode == 13) { //13 = enter
-    console.log(selected_content);
-    selectResult(e.shiftKey);
+    if (frag[0] == "new_bookmark"){
+      createBookmark(frag[1]);
+    }else{
+      selectResult(e.shiftKey);
+    }
     e.preventDefault();
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
     $("#search-results-container > .selected").toggleClass("selected",false);
@@ -157,6 +161,7 @@ function selectResult(new_tab) {
 }
 
 function searchEvent(e) {
+  if (frag[0] != "search")return;
   labels = [];
   selected_content = 1;
   var container = $("#search-results-container");
@@ -211,9 +216,6 @@ function createResult(type, title, url, favicon_url, i) {
         $("#search-results-container > .selected").not(this).toggleClass("selected",false);
         selected_content = i;
         $(this).toggleClass("selected", true);
-      },
-      mouseout: function (e) {
-        $(this).toggleClass("selected", false);
       }
     }
   });
@@ -240,14 +242,22 @@ function createResult(type, title, url, favicon_url, i) {
 }
 
 function newBookmarkEvent(level) {
-  let title = current_tab.title;
-  let input = document.getElementById("search-keyword-field").value;
-  if (input.length > 0)title = input;
+  var container = $("#search-results-container");
+  frag = ["new_bookmark", level];
+  results = [];
+  result_htmls = [];
+  selected_content = 0;
+  container.html(result_htmls);
+  $("#search-keyword-field")[0].value = current_tab.title;
+}
+
+function createBookmark(level) {
+  let name = $("#search-keyword-field")[0].value;
   var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
   if (bookmark) {
     sendBookmarkLevel(bookmark.id, level);
   } else {
-    newBookmark(title, current_tab.url, level, null).then(function (result) {
+    newBookmark(name, current_tab.url, level, null).then(function (result) {
       console.log(result);
     });
   }
