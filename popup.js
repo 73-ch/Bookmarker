@@ -1,6 +1,3 @@
-var test = $("#search-results-container");
-console.log(test);
-
 var current_tab,// 現在のタブの情報
   all_bookmarks = [],// 全てのブックマークの情報
   selected_content = 0,// 現在選ばれている検索結果の情報
@@ -102,6 +99,7 @@ function keyDown(e) {
 
   if (e.keyCode == 13) { //13 = enter
     selectEvent(e.shiftKey);
+    e.preventDefault();
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
     $("#search-results-container > .selected").toggleClass("selected",false);
     if (selected_content < result_htmls.length - 1) {
@@ -132,7 +130,6 @@ function selectEvent(shift) {
   }else{
     selectResult(shift);
   }
-  e.preventDefault();
 }
 
 function createProjectBookmark() {
@@ -359,15 +356,6 @@ function newBookmark(title, url, level, parent) {
           });
         });
       }
-    });
-  });
-}
-
-// storage全体を取ってくるメソッド（他の拡張機能のデータも取ってくる　＊未検証）
-function getStorage() {
-  return new Promise(function (resolve, reject) {
-    chrome.runtime.sendMessage({getStorage: true}, function (response) {
-      resolve(response);
     });
   });
 }
