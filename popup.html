@@ -11,6 +11,7 @@
 <div id="nav">
 	<form id="search-keyword">
 		<input type="text" id="search-keyword-field" placeholder="search bookmarks..." autocomplete="off" />
+		<input type="submit" id="submit" value="search"/>
 	</form>
 	<div id="level-selection">
 		<img id="level-1" class="button-image" src="images/check.png" alt="check button"/>
@@ -52,7 +53,7 @@
 	input[type=text] {
 		font-size:1.5em;
 		color: #000;
-		width: 450px;
+		width: 400px;
 		height: 40px;
 		box-sizing: border-box;
 		padding: 10px 5px;
@@ -69,7 +70,10 @@
 		color: #bbc9cf;
 	}
 	input[type=submit] {
-		visibility: hidden;
+		width: 50px;
+		outline: none;
+		box-shadow: none;
+		border: none;
 	}
 
 	h3{

@@ -37,6 +37,10 @@ window.onload = function () {
     }
   });
 
+  $('#submit').click(function () {
+    selectEvent(false);
+  });
+
   $(document).on("click", ".search-result", function () {
     var result = results[selected_content];
     if (result) {
@@ -97,12 +101,7 @@ function keyDown(e) {
   }
 
   if (e.keyCode == 13) { //13 = enter
-    if (frag[0] == "new_bookmark"){
-      createBookmark(frag[1]);
-    }else{
-      selectResult(e.shiftKey);
-    }
-    e.preventDefault();
+    selectEvent(e.shiftKey);
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
     $("#search-results-container > .selected").toggleClass("selected",false);
     if (selected_content < result_htmls.length - 1) {
@@ -125,6 +124,15 @@ function keyDown(e) {
     }
     $(result_htmls[selected_content]).toggleClass("selected", true);
   }
+}
+
+function selectEvent(shift) {
+  if (frag[0] == "new_bookmark"){
+    createBookmark(frag[1]);
+  }else{
+    selectResult(shift);
+  }
+  e.preventDefault();
 }
 
 function createProjectBookmark() {
@@ -246,6 +254,7 @@ function createResult(type, title, url, favicon_url, i) {
 }
 
 function newBookmarkEvent(level) {
+  $('#submit')[0].value = "create";
   result_htmls = [];
   var container = $("#search-results-container");
   frag = ["new_bookmark", level];
