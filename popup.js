@@ -12,7 +12,8 @@ var current_tab,// 現在のタブの情報
   all_projects = [],
   new_project_bookmark = false,
   labels = [],
-  frag = ["search", 0];
+  frag = ["search", 0],
+  all_folders = [];
 window.onload = function () {
   var container = document.getElementById("search-results-container");
   var form = document.getElementById("search-keyword-field");
@@ -52,6 +53,9 @@ window.onload = function () {
 
   getBookmarkAll().then(function (bookmarks) {
     all_bookmarks = bookmarks;
+  });
+  getFolders().then(function (folders) {
+    all_folders = folders
   });
   getCurrentTab().then(function (current) {
     current_tab = current;
@@ -242,22 +246,34 @@ function createResult(type, title, url, favicon_url, i) {
 }
 
 function newBookmarkEvent(level) {
+  result_htmls = [];
   var container = $("#search-results-container");
   frag = ["new_bookmark", level];
-  results = [];
-  result_htmls = [];
-  selected_content = 0;
+  results.push(all_folders[level - 1]);
+  results = results.concat(all_folders[level - 1].children);
+  let type_name = $("<h3></h3>", {
+    text: "project"
+  });
+  result_htmls.push(type_name);
+  labels.push(result_htmls.length - 1);
+  for (let i = 0; i < results.length; i++) {
+    let result = createResult("project", results[i].title, null, null, i);
+    result_htmls.push(result);
+  }
+  selected_content = 1;
   container.html(result_htmls);
   $("#search-keyword-field")[0].value = current_tab.title;
+  $(result_htmls[selected_content]).toggleClass("selected", true);
 }
 
 function createBookmark(level) {
   let name = $("#search-keyword-field")[0].value;
+  let parent = results[selected_content - 1].id;
   var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
   if (bookmark) {
     sendBookmarkLevel(bookmark.id, level);
   } else {
-    newBookmark(name, current_tab.url, level, null).then(function (result) {
+    newBookmark(name, current_tab.url, level, parent).then(function (result) {
       console.log(result);
     });
   }
@@ -398,6 +414,14 @@ function searchTabName(tabs, name, result) {
     }
     if (result.length > result_max)break;
   }
+}
+
+function getFolders() {
+  return new Promise(function (resolve) {
+    chrome.runtime.sendMessage({getFolders: true}, function (res) {
+      resolve(res);
+    });
+  });
 }
 
 function getAllTabs(windows, result) {
