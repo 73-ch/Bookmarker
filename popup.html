@@ -81,9 +81,12 @@
 		margin: 0;
 		padding: 2px 5px;
 	}
-	form {
+	#search-keyword {
 		position: absolute;
 		width: 460px;
+		height:45px;
+		background-color: white;
+		z-index: 2;
 	}
 	#submit {
 		cursor: pointer;
@@ -116,12 +119,11 @@
 		max-width:370px;
 	}
 	a:focus {
-		color: #2897c1;
+		color: #1a8bb6;
 		outline:none;
 	}
-	a:visited {
-		color:#161616;
-		text-decoration: none;
+	a:active {
+		color:#0277b9;
 	}
 	#search-results-container {
 		position: absolute;
@@ -150,7 +152,7 @@
 	#level-selection {
 		width:500px;
 		position: absolute;
-		top: 42px;
+		top: 40px;
 		display: flex;
 		flex-direction: row;
 		background-color: white;
