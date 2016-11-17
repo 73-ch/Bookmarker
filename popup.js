@@ -277,7 +277,7 @@ function createBookmark(level) {
   let parent = results[selected_content - 1].id;
   var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
   if (bookmark) {
-    sendBookmarkLevel(bookmark.id, level);
+    updateBookmark(bookmark.id, name, level, parent);
   } else {
     newBookmark(name, current_tab.url, level, parent).then(function (result) {
       console.log(result);
@@ -321,14 +321,12 @@ function getBookmarkAll() {
   });
 }
 
-// ブックマークのレベルをstorageに登録するためのメソッド
-function sendBookmarkLevel(bookmark_id, level) {
-  chrome.runtime.sendMessage({bookmark_level: {bookmark_id: bookmark_id, level: level}}, function (response) {
-    getBookmarkLevel(bookmark_id).then(function (bookmark_level) {
-      console.log(bookmark_level);
-    });
+function updateBookmark(bookmark_id, title, level, parent) {
+  chrome.runtime.sendMessage({update_bookmark: {bookmark_id: bookmark_id, title: title, level: level, parent: parent}}, function (response) {
+    console.log(response);
   });
 }
+
 // ブックマークのレベルをstorageから取ってくるメソッド
 function getBookmarkLevel(bookmark_id) {
   return new Promise(function (resolve, reject) {
@@ -359,6 +357,7 @@ function newBookmark(title, url, level, parent) {
     });
   });
 }
+
 
 // bookmark検索メソッド
 function searchBookmarkName(bookmarks, name, result) {
