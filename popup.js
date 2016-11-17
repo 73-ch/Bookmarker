@@ -66,7 +66,6 @@ window.onload = function () {
     getAllTabs(all_windows, all_tabs);
   });
   getAllProject().then(function (projects) {
-    console.log(projects);
     if (projects) {
       all_projects = projects;
     } else {
@@ -381,7 +380,15 @@ function searchBookmarkUrl(bookmarks, name, result) {
     let url = val.url.replace(/http|https/, "");
     if (url && (new RegExp(name, 'i')).test(url)) {
       val.type = "bookmark";
-      val.favIconUrl = "http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(val.url);
+      $.get("http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(val.url))
+        .done(function(){
+          console.log("success");
+          val.favIconUrl = "http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(val.url);
+        })
+        .fail(function(){
+          console.log("error");
+          val.favIconUrl = "images/nofav.png";
+        });
       if (result.indexOf(val) < 0)result.push(val);
     }
     if (result.length >= result_max)break;
