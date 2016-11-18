@@ -7,9 +7,8 @@ var current_tab,// 現在のタブの情報
   all_windows = [],
   all_tabs = [],
   all_projects = [],
-  new_project_bookmark = false,
   labels = [],
-  frag = ["search", 0],
+  flag = ["search", 0],
   all_folders = [];
 window.onload = function () {
   var container = document.getElementById("search-results-container");
@@ -18,20 +17,8 @@ window.onload = function () {
   window.addEventListener("keydown", keyDown, false);
   form.addEventListener("input", searchEvent, false);
 
-  $('#level-1, #level-2, #level-3').click(function () {
+  $('#level-1, #level-2, #level-3, #level-4').click(function () {
     newBookmarkEvent($(this).data("level"));
-  });
-
-  $('#level-4').click(function () {
-    if (new_project_bookmark) {
-      new_project_bookmark = false;
-      var container = $("#search-results-container");
-      results = [];
-      result_htmls = [];
-      container.html(result_htmls);
-    } else {
-      createProjectBookmark();
-    }
   });
 
   $('#submit').click(function () {
@@ -76,19 +63,8 @@ window.onload = function () {
 
 function keyDown(e) {
   if ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
-    if (e.key == '1' || e.key == '2' || e.key == '3') { //levels
+    if (e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') { //levels
       newBookmarkEvent(e.key);
-    } else if (e.key == '4') {
-      if (new_project_bookmark) {
-        new_project_bookmark = false;
-        var container = $("#search-results-container");
-        results = [];
-        result_htmls = [];
-        container.html(result_htmls);
-      } else {
-        createProjectBookmark();
-      }
-      e.preventDefault();
     } else if (e.keyCode == 80) { //80 = p
       let name = document.getElementById("search-keyword-field").value;
       newProject(name, current_tab.windowId);
@@ -100,7 +76,7 @@ function keyDown(e) {
     selectEvent(e.shiftKey);
     e.preventDefault();
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
-    $("#search-results-container > .selected").toggleClass("selected",false);
+    $("#search-results-container > .selected").toggleClass("selected", false);
     if (selected_content < result_htmls.length - 1) {
       selected_content++;
       if (labels.indexOf(selected_content) >= 0)selected_content++;
@@ -110,7 +86,7 @@ function keyDown(e) {
     window.scrollTo(0, $(result_htmls[selected_content])[0].offsetTop - 102);
     $(result_htmls[selected_content]).toggleClass("selected", true);// 新しく選択されたobjectに"selected"をつける
   } else if (e.keyCode == 38) { //38 = up arrow
-    $("#search-results-container > .selected").toggleClass("selected",false);
+    $("#search-results-container > .selected").toggleClass("selected", false);
     if (selected_content > 1) {
       selected_content--;
       if (labels.indexOf(selected_content) >= 0)selected_content--;
@@ -123,16 +99,14 @@ function keyDown(e) {
 }
 
 function selectEvent(shift) {
-  if (frag[0] == "new_bookmark"){
-    createBookmark(frag[1]);
-  }else{
+  if (flag[0] == "new_bookmark" || flag[0] == "new_project_bookmark") {
+    createBookmark();
+  } else {
     selectResult(shift);
   }
 }
 
 function createProjectBookmark() {
-  new_project_bookmark = true;
-
   selected_content = 0;
   var container = $("#search-results-container");
   while (container.firstChild) container.removeChild(container.firstChild);
@@ -157,18 +131,13 @@ function selectResult(new_tab) {
     } else if (result.type == "bookmark") {
       createTab(result.url, new_tab);
     } else if (result.type == "project") {
-      if (new_project_bookmark) {
-        newBookmark(current_tab.title, current_tab.url, 4, result.id);
-        window.close();
-      } else {
-        openProject(result.id);
-      }
+      openProject(result.id);
     }
   }
 }
 
 function searchEvent(e) {
-  if (frag[0] != "search")return;
+  if (flag[0] != "search")return;
   labels = [];
   selected_content = 1;
   var container = $("#search-results-container");
@@ -187,7 +156,7 @@ function searchEvent(e) {
   }
   let before_type = null;
   for (var i = 0; i < results.length; i++) {
-    if (before_type != results[i].type){
+    if (before_type != results[i].type) {
       let type_name = $("<h3></h3>", {
         text: results[i].type
       });
@@ -196,13 +165,13 @@ function searchEvent(e) {
     }
     if (!results[i].title) results[i].title = "(no name)";
 
-    let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl , result_htmls.length);
+    let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl, result_htmls.length);
 
     if (i == 0)$(result).toggleClass("selected", true);// 一番最初に選択させておく
     result_htmls.push(result);
     before_type = results[i].type;
   }
-  for (let i = 0; i < labels.length; i++){
+  for (let i = 0; i < labels.length; i++) {
     results.splice(Number(labels[i]), 0, null);
   }
   container.html(result_htmls);
@@ -217,10 +186,11 @@ function createResult(type, title, url, favicon_url, i) {
     "class": classes,
     on: {
       click: function (e) {
-        selectResult(false);
+        console.log('read');
+        selectEvent(false);
       },
       mouseover: function (e) {
-        $("#search-results-container > .selected").not(this).toggleClass("selected",false);
+        $("#search-results-container > .selected").not(this).toggleClass("selected", false);
         selected_content = i;
         $(this).toggleClass("selected", true);
       }
@@ -228,10 +198,10 @@ function createResult(type, title, url, favicon_url, i) {
   });
   let label_div = $("<div></div>");
   let name = $("<a></a>", {
-      text: title,
-      href: url,
-      "class": "searchresult"
-    });
+    text: title,
+    href: url,
+    "class": "searchresult"
+  });
   let favicon_obj, url_obj;
   if (type == "bookmark" || type == "tab") {
     favicon_obj = $("<img>", {
@@ -251,33 +221,51 @@ function createResult(type, title, url, favicon_url, i) {
 function newBookmarkEvent(level) {
   $('#submit')[0].value = "create";
   result_htmls = [];
+  results = [];
   var container = $("#search-results-container");
-  frag = ["new_bookmark", level];
-  results.push(all_folders[level - 1]);
-  results = results.concat(all_folders[level - 1].children);
+
+  if (level == 4) {
+    results = all_projects;
+    flag = ["new_project_bookmark", level];
+  } else {
+    flag = ["new_bookmark", level];
+    results.push(all_folders[level - 1]);
+    results = results.concat(all_folders[level - 1].children);
+  }
+  let text;
+  if (level == 1) {
+    text = "favolite"
+  } else if (level == 2) {
+    text = "check";
+  } else if (level == 4) {
+    text = "project"
+  } else {
+    text = "other"
+  }
   let type_name = $("<h3></h3>", {
-    text: "project"
+    text: text
   });
   result_htmls.push(type_name);
   labels.push(result_htmls.length - 1);
   for (let i = 0; i < results.length; i++) {
-    let result = createResult("project", results[i].title, null, null, i);
+    let result = createResult(text, results[i].title, null, null, i);
     result_htmls.push(result);
   }
+
   selected_content = 1;
   container.html(result_htmls);
   $("#search-keyword-field")[0].value = current_tab.title;
   $(result_htmls[selected_content]).toggleClass("selected", true);
 }
 
-function createBookmark(level) {
+function createBookmark() {
   let name = $("#search-keyword-field")[0].value;
   let parent = results[selected_content - 1].id;
   var bookmark = getBookmarkUrl(all_bookmarks, current_tab.url);
   if (bookmark) {
-    updateBookmark(bookmark.id, name, level, parent);
+    updateBookmark(bookmark.id, name, flag[1], parent);
   } else {
-    newBookmark(name, current_tab.url, level, parent).then(function (result) {
+    newBookmark(name, current_tab.url, flag[1], parent).then(function (result) {
       console.log(result);
     });
   }
@@ -320,7 +308,14 @@ function getBookmarkAll() {
 }
 
 function updateBookmark(bookmark_id, title, level, parent) {
-  chrome.runtime.sendMessage({update_bookmark: {bookmark_id: bookmark_id, title: title, level: level, parent: parent}}, function (response) {
+  chrome.runtime.sendMessage({
+    update_bookmark: {
+      bookmark_id: bookmark_id,
+      title: title,
+      level: level,
+      parent: parent
+    }
+  }, function (response) {
     console.log(response);
   });
 }
@@ -379,11 +374,11 @@ function searchBookmarkUrl(bookmarks, name, result) {
     if (url && (new RegExp(name, 'i')).test(url)) {
       val.type = "bookmark";
       $.get("http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(val.url))
-        .done(function(){
+        .done(function () {
           console.log("success");
           val.favIconUrl = "http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(val.url);
         })
-        .fail(function(){
+        .fail(function () {
           console.log("error");
           val.favIconUrl = "images/nofav.png";
         });
