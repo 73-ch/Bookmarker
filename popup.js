@@ -66,7 +66,6 @@ window.onload = function () {
     getAllTabs(all_windows, all_tabs);
   });
   getAllProject().then(function (projects) {
-    console.log(projects);
     if (projects) {
       all_projects = projects;
     } else {
@@ -104,22 +103,21 @@ function keyDown(e) {
     $("#search-results-container > .selected").toggleClass("selected",false);
     if (selected_content < result_htmls.length - 1) {
       selected_content++;
-      // window.scrollTo(0, result_htmls[selected_content].positionY());
-      console.log(result_htmls[selected_content]);
       if (labels.indexOf(selected_content) >= 0)selected_content++;
     } else {
       selected_content = 1;
     }// 選択されるobjectを変える
-    console.log(selected_content);
+    window.scrollTo(0, $(result_htmls[selected_content])[0].offsetTop - 102);
     $(result_htmls[selected_content]).toggleClass("selected", true);// 新しく選択されたobjectに"selected"をつける
   } else if (e.keyCode == 38) { //38 = up arrow
     $("#search-results-container > .selected").toggleClass("selected",false);
-    if (selected_content > 0) {
+    if (selected_content > 1) {
       selected_content--;
       if (labels.indexOf(selected_content) >= 0)selected_content--;
     } else {
       selected_content = result_htmls.length - 1;
     }
+    window.scrollTo(0, $(result_htmls[selected_content])[0].offsetTop - 102);
     $(result_htmls[selected_content]).toggleClass("selected", true);
   }
 }
