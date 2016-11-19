@@ -145,15 +145,12 @@ function searchEvent(e) {
   var keyword = document.getElementById("search-keyword-field").value;
   results = [];
   result_htmls = [];
-  if (new_project_bookmark) {
-    searchProjectName(all_projects, keyword, results);
-  } else {
-    if (all_tabs.length > 0)searchTabName(all_tabs, keyword, results);
-    if (results.length <= result_max && all_projects.length > 0) searchProjectName(all_projects, keyword, results);
-    // if (results.length <= result_max && all_projects.length > 0) searchFolders(all_projects, keyword, results);
-    if (results.length <= result_max) searchBookmarkName(all_bookmarks, keyword, results);
-    if (results.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, results);
-  }
+  if (all_tabs.length > 0)searchTabName(all_tabs, keyword, results);
+  if (results.length <= result_max && all_projects.length > 0) searchProjectName(all_projects, keyword, results);
+  // if (results.length <= result_max && all_projects.length > 0) searchFolders(all_projects, keyword, results);
+  if (results.length <= result_max) searchBookmarkName(all_bookmarks, keyword, results);
+  if (results.length <= result_max) searchBookmarkUrl(all_bookmarks, keyword, results);
+
   let before_type = null;
   for (var i = 0; i < results.length; i++) {
     if (before_type != results[i].type) {
