@@ -24,6 +24,8 @@ window.onload = function () {
 
   $('#submit').click(function () {
     selectEvent(false);
+  }).contextmenu(function () {
+    selectEvent(true);
   });
 
   $(document).on("click", ".search-result", function () {
@@ -194,11 +196,14 @@ function createResult(type, title, url, favicon_url, i) {
   let result = $("<div></div>", {
     "class": classes,
     on: {
-      click: function (e) {
+      click: function () {
         selectEvent(false);
       },
-      mouseover: function (e) {
-        $("#search-results-container > .selected").not(this).toggleClass("selected", false);
+      contextmenu: function () {
+        selectEvent(true);
+      },
+      mouseover: function () {
+        $("#search-results-container").find("> .selected").not(this).toggleClass("selected", false);
         selected_content = i;
         $(this).toggleClass("selected", true);
       }
@@ -432,6 +437,7 @@ function getFolders() {
 function getAllTabs(windows, result) {
   for (let i = 0; i < windows.length; i++) {
     for (let j = 0; j < windows[i].tabs.length; j++) {
+      if (windows[i].tabs[j].url == current_tab.url)continue;
       result.push(windows[i].tabs[j]);
     }
   }
