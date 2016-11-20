@@ -65,6 +65,17 @@ function keyDown(e) {
   if ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
     if (e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4') { //levels
       newBookmarkEvent(e.key);
+    } else if (e.key == '4') {
+      if (new_project_bookmark) {
+        new_project_bookmark = false;
+        var container = $("#search-results-container");
+        results = [];
+        result_htmls = [];
+        container.html(result_htmls);
+      } else {
+        createProjectBookmark();
+      }
+      e.preventDefault();
     } else if (e.keyCode == 80) { //80 = p
       let name = document.getElementById("search-keyword-field").value;
       newProject(name, current_tab.windowId);
@@ -162,7 +173,7 @@ function searchEvent(e) {
     }
     if (!results[i].title) results[i].title = "(no name)";
 
-    let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl, result_htmls.length);
+    let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl , result_htmls.length);
 
     if (i == 0)$(result).toggleClass("selected", true);// 一番最初に選択させておく
     result_htmls.push(result);
@@ -183,7 +194,6 @@ function createResult(type, title, url, favicon_url, i) {
     "class": classes,
     on: {
       click: function (e) {
-        console.log('read');
         selectEvent(false);
       },
       mouseover: function (e) {
@@ -195,9 +205,9 @@ function createResult(type, title, url, favicon_url, i) {
   });
   let label_div = $("<div></div>");
   let name = $("<a></a>", {
-    text: title,
-    href: url,
-    "class": "searchresult"
+      text: title,
+      href: url,
+      "class": "searchresult"
   });
   let favicon_obj, url_obj;
   if (type == "bookmark" || type == "tab") {
