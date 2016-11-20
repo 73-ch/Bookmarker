@@ -370,6 +370,7 @@ function searchBookmarkName(bookmarks, name, result) {
   result = result || [];
   for (let i = 0; i < bookmarks.length; i++) {
     val = bookmarks[i];
+    if (val.url == current_tab.url)continue;
     if (val.url && (new RegExp(name, 'i')).test(val.title)) {
       val.type = "bookmark";
       val.favIconUrl = "http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(val.url);
@@ -404,6 +405,7 @@ function searchBookmarkUrl(bookmarks, name, result) {
 function getBookmarkUrl(bookmarks, url) {
   for (let i = 0; i < bookmarks.length; i++) {
     let val = bookmarks[i];
+    if (val.url == current_tab.url)continue;
     let result;
     if (val.url == url) {
       result = val;
