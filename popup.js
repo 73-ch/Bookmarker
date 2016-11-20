@@ -37,6 +37,7 @@ window.onload = function () {
         createTab(result.url, false);
       } else if (result.project) {
         openProject(result.id);
+        window.close();
       }
       e.preventDefault();
     }
@@ -146,6 +147,7 @@ function selectResult(new_tab) {
       createTab(result.url, new_tab);
     } else if (result.type == "project") {
       openProject(result.id);
+      window.close();
     }
   }
 }
