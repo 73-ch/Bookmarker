@@ -16,6 +16,7 @@ window.onload = function () {
 
   window.addEventListener("keydown", keyDown, false);
   form.addEventListener("input", searchEvent, false);
+  $("#search-keyword-field").attr('placeholder', chrome.i18n.getMessage("searchfield"));
 
   $('#level-1, #level-2, #level-3, #level-4').click(function () {
     newBookmarkEvent($(this).data("level"));

@@ -1,3 +1,8 @@
 {
-  
+  "description":{
+    "message":"テスト"
+  },
+  "searchfield": {
+    "message":"tab・bookmark・projectを検索"
+  }
 }
