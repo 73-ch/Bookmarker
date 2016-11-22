@@ -122,6 +122,7 @@ function selectEvent(shift) {
   } else if (flag[0] == "new_project"){
     let name = document.getElementById("search-keyword-field").value;
     newProject(name, current_tab.windowId);
+    window.close();
   } else {
     selectResult(shift);
   }
