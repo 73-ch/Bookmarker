@@ -81,8 +81,11 @@ function keyDown(e) {
       }
       e.preventDefault();
     } else if (e.keyCode == 80) { //80 = p
-      let name = document.getElementById("search-keyword-field").value;
-      newProject(name, current_tab.windowId);
+      flag = ["new_project", 4];
+      result_htmls = [];
+      results = [];
+      var container = $("#search-results-container");
+      container.html(result_htmls);
       e.preventDefault();
     }
   }
@@ -116,6 +119,9 @@ function keyDown(e) {
 function selectEvent(shift) {
   if (flag[0] == "new_bookmark" || flag[0] == "new_project_bookmark") {
     createBookmark();
+  } else if (flag[0] == "new_project"){
+    let name = document.getElementById("search-keyword-field").value;
+    newProject(name, current_tab.windowId);
   } else {
     selectResult(shift);
   }
