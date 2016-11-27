@@ -22,11 +22,11 @@ chrome web ストア
         ちょっと気になったニュース記事やイベントのサイトなどを登録するためのブックマークです。次に開いた時に自動で消去されます。
         以前開いていた時のスクロールの情報が保持されます。
 
-    - Other <img src="images/other.png" width="20px"> (Command + 3 or Ctrl + 3）
+    - Other <img src="images/others.png" width="20px"> (Command + 3 or Ctrl + 3）
         上の2つには入らないような、時々使うブックマーク。
         以前開いていた時のスクロールの情報が保持されます。
 
-    - Project <img src="images/project.png" width="20px"> (Command + 4 or Ctrl + 4）
+    - Project <img src="images/projects.png" width="20px"> (Command + 4 or Ctrl + 4）
         プロジェクトでまとめて、ブックマークを管理することができます。（詳しくはプロジェクトを参照）
         以前開いていた時のスクロールの情報が保持されます。
 
