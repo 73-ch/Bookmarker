@@ -13,8 +13,7 @@ var current_tab,// 現在のタブの情報
 window.onload = function () {
   var container = document.getElementById("search-results-container");
   var form = document.getElementById("search-keyword-field");
-  $("#status").addClass("search");
-  $("#status").text("search");
+  $("#status").addClass("search").text("search");
 
   window.addEventListener("keydown", keyDown, false);
   form.addEventListener("input", searchEvent, false);
@@ -84,8 +83,7 @@ function keyDown(e) {
       e.preventDefault();
     } else if (e.keyCode == 80) { //80 = p
       flag = ["new_project", 4];
-      $("#status").addClass("new_project");
-      $("#status").text("new_project");
+      $("#status").addClass("new_project").text("create new project");
       result_htmls = [];
       results = [];
       var container = $("#search-results-container");
@@ -253,12 +251,10 @@ function newBookmarkEvent(level) {
   if (level == 4) {
     results = all_projects;
     flag = ["new_project_bookmark", level];
-    $("#status").addClass("new_project_bookmark");
-    $("#status").text("new_project_bookmark");
+    $("#status").addClass("new_project_bookmark").text("add new bookmark to project");
   } else {
     flag = ["new_bookmark", level];
-    $("#status").addClass("new_bookmark");
-    $("#status").text("new_bookmark");
+    $("#status").addClass("new_bookmark").text("add new bookmark");
     results.push(all_folders[level - 1]);
     results = results.concat(all_folders[level - 1].children);
   }
