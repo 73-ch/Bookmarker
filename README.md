@@ -2,13 +2,24 @@
 あなたのメモリを解放するブックマークマネージャー
 
 ### install
-chrome web ストア
+ 1. [chrome web store](https://chrome.google.com/webstore/detail/bookmarker/glhpfpaemdkplbllfmkbigklacjneoba)でダウンロードしてください
+ <img src="images/store page.png">
+ 
+ 2. ダウンロード完了後、 Chromeの[拡張機能](chrome://extensions/)で、ページ一番下のキーボードショートカットを選択
+ <img src="images/chrome extensions.png">
+ 
+ 3. すると下のような画面が現れるので、「拡張機能を有効にする」の横の入力バーをクリックして、好きなショートカットを入力（キーボードで実際に押してください）（Ctrl / Command + Dを推奨）
+     同じように、「ブックマークの削除」の横でもショートカットを入力します。（Ctrl / Command + Iを推奨）
+ <img src="images/keyboardshortcut.png">
+ 
+ 
+ 
+ 
 
 
 ### how to use
 1. ポップアップウィンドウの表示
-    macの場合：command + d
-    その他：Ctrl + d
+    登録したショートカットを入力すると表示されます。
 
 
 2. ブックマークの登録
@@ -81,6 +92,4 @@ chrome web ストア
         また、これらのフォルダは好きな場所に動かして利用することや自分の好きな名前に変えることも可能です。
 
 7. バグ
-    - ブックマークの移動
-        ブックマークを移動して、FavoriteやCheckをかえるときに、複数選択して移動するとうまく変更されません。
-        申し訳有りませんが、ブックマークを一つずつ選択して変更をよろしくお願いします。
+    発見され次第、追記します。
