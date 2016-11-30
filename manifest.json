@@ -1,23 +1,9 @@
 {
   "manifest_version": 2,
-<<<<<<< HEAD
-  "name": "Tab Manager",
-  "version": "0.0.0.0",
-||||||| merged common ancestors
-  "name": "Tab Manager",
-<<<<<<<<< Temporary merge branch 1
-  "version": "0",
-||||||||| merged common ancestors
-  "version":0,
-=========
-  "version": "0.0.0.0",
->>>>>>>>> Temporary merge branch 2
-=======
   "name": "Bookmarker",
   "version": "0.0.6",
   "default_locale":"en",
   "description":"__MSG_description__",
->>>>>>> 1b5c8208f349098a3125cfa78c8756e4b9e7c93f
 
   "browser_action": {
     "default_popup":"popup.html",
