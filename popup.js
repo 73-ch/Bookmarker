@@ -29,6 +29,14 @@ window.onload = function () {
     selectEvent(true);
   });
 
+  $('#level-1').hover(function(){$('#status').text("add to check later")});
+  $('#level-2').hover(function(){$('#status').text("add to favorites")});
+  $('#level-3').hover(function(){$('#status').text("add to other bookmarks")});
+  $('#level-4').hover(function(){$('#status').text("create new project")});
+  $('#addproj').hover(function(){$('#status').text("add to existing project")});
+  $('#level-1, #level-2, #level-3, #level-4, #addproj').mouseleave(function(){$('#status').text("search")})
+
+
   $(document).on("click", ".search-result", function () {
     var result = results[selected_content];
     if (result) {
@@ -260,7 +268,7 @@ function newBookmarkEvent(level) {
   }
   let text;
   if (level == 1) {
-    text = "favolite"
+    text = "favorite"
   } else if (level == 2) {
     text = "check";
   } else if (level == 4) {
