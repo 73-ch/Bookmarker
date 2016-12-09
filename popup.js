@@ -20,6 +20,7 @@ window.onload = function () {
   $("#search-keyword-field").attr('placeholder', chrome.i18n.getMessage("searchfield"));
 
   $('#level-1, #level-2, #level-3, #level-4').click(function () {
+    event.stopPropagation();
     newBookmarkEvent($(this).data("level"));
   });
 
@@ -33,8 +34,8 @@ window.onload = function () {
   $('#level-2').hover(function(){$('#status').text("add to favorites")});
   $('#level-3').hover(function(){$('#status').text("add to other bookmarks")});
   $('#level-4').hover(function(){$('#status').text("create new project")});
-  $('#addproj').hover(function(){$('#status').text("add to existing project")});
-  $('#level-1, #level-2, #level-3, #level-4, #addproj').mouseleave(function(){$('#status').text("search")})
+  $('#level-5').hover(function(){$('#status').text("add to existing project")});
+  $('#level-1, #level-2, #level-3, #level-4, #level-5').mouseleave(function(){$('#status').text("search")})
 
 
   $(document).on("click", ".search-result", function () {
@@ -410,11 +411,9 @@ function searchBookmarkUrl(bookmarks, name, result) {
       val.type = "bookmark";
       $.get("http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(val.url))
         .done(function () {
-          console.log("success");
           val.favIconUrl = "http://www.google.com/s2/favicons?domain_url=" + encodeURIComponent(val.url);
         })
         .fail(function () {
-          console.log("error");
           val.favIconUrl = "images/nofav.png";
         });
       if (result.indexOf(val) < 0)result.push(val);
