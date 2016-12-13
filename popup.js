@@ -172,14 +172,21 @@ function keyDown(e) {
       }
       e.preventDefault();
     } else if (e.keyCode == 80) { //80 = p
-      flag = ["new_project", 4];
-      before_status = "create new project";
-      $("#status").addClass("new_project").text("create new project");
-      result_htmls = [];
-      results = [];
-      var container = $("#search-results-container");
-      container.html(result_htmls);
       e.preventDefault();
+      chrome.storage.get("projects", function (data) {
+        let result = false;
+        Object.values(data["projects"]).forEach(function (project) {
+          if (project["open_window"] == current_tab.windowId)result = true;
+        });
+        if (result)return;
+        flag = ["new_project", 4];
+        before_status = "create new project";
+        $("#status").addClass("new_project").text("create new project");
+        result_htmls = [];
+        results = [];
+        var container = $("#search-results-container");
+        container.html(result_htmls);
+      });
     }
   }
 
