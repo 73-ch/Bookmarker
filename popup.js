@@ -9,8 +9,20 @@ var current_tab,// 現在のタブの情報
   all_projects = [],
   labels = [],
   flag = ["search", 0],
+  settings = null,
+  page_num = false,
+  before_status = null,
   all_folders = [];
 window.onload = function () {
+  chrome.storage.local.get("user_settings", function (data) {
+    settings = data["user_settings"];
+    result_max = settings.max_results;
+    if (settings.beginner) {
+      tour();
+      data["user_settings"]["beginner"] = false;
+      chrome.storage.local.set(data);
+    }
+  });
   var container = document.getElementById("search-results-container");
   var form = document.getElementById("search-keyword-field");
   $("#status").addClass("search").text("search");
@@ -24,19 +36,50 @@ window.onload = function () {
     newBookmarkEvent($(this).data("level"));
   });
 
+  $('#new-project').click(function () {
+    console.log('read');
+    flag = ["new_project", 4];
+    $("#status").addClass("new_project").text("create new project");
+    before_status = "create new project";
+    result_htmls = [];
+    results = [];
+    var container = $("#search-results-container");
+    container.html(result_htmls);
+  });
+
+  $("#help").click(function () {
+    tour();
+  });
+
   $('#submit').click(function () {
     selectEvent(false);
   }).contextmenu(function () {
     selectEvent(true);
   });
 
-  $('#level-1').hover(function(){$('#status').text("add to check later")});
-  $('#level-2').hover(function(){$('#status').text("add to favorites")});
-  $('#level-3').hover(function(){$('#status').text("add to other bookmarks")});
-  $('#level-4').hover(function(){$('#status').text("create new project")});
-  $('#level-5').hover(function(){$('#status').text("add to existing project")});
-  $('#level-1, #level-2, #level-3, #level-4, #level-5').mouseleave(function(){$('#status').text("search")})
-
+  $('#level-1').mouseenter(function () {
+    before_status = $('#status').text();
+    $('#status').text("add to check later")
+  });
+  $('#level-2').mouseenter(function () {
+    before_status = $('#status').text();
+    $('#status').text("add to favorites")
+  });
+  $('#level-3').mouseenter(function () {
+    before_status = $('#status').text();
+    $('#status').text("add to other bookmarks")
+  });
+  $('#level-4').mouseenter(function () {
+    before_status = $('#status').text();
+    $('#status').text("add to existing project")
+  });
+  $('#new-project').mouseenter(function () {
+    before_status = $('#status').text();
+    $('#status').text("create new project")
+  });
+  $('#level-1, #level-2, #level-3, #level-4, #new-project').mouseleave(function () {
+    $('#status').text(before_status);
+  });
 
   $(document).on("click", ".search-result", function () {
     var result = results[selected_content];
@@ -73,7 +116,45 @@ window.onload = function () {
       all_projects = [];
     }
   });
+
+  function tour() {
+    page_num = 1;
+    $("#welcome").css("display", "block");
+    $("#welcome .welcome-title").text(chrome.i18n.getMessage("welcomeTitle"));
+    $("#page1").css("display", "block");
+    $("#welcome .start-tour").click(function () {
+      changeTourPage(true);
+    });
+    $("#welcome .exit-tour").click(function () {
+      tour = false;
+      $("#welcome").css("display", "none");
+    });
+    $("#welcome .next").click(function () {
+      if ($("#welcome .page").length == page_num)return;
+      changeTourPage(true);
+    });
+    $("#welcome .page .prev").click(function () {
+      if (tour == 1)return;
+      changeTourPage(false);
+    });
+  }
 };
+
+function changeTourPage(dir) {
+  let before = $("#welcome .page").get(page_num - 1);
+  let after;
+  if (dir) {
+    after = $("#welcome .page").get(page_num);
+    page_num++;
+  } else {
+    after = $("#welcome .page").get(page_num - 2);
+    page_num--;
+  }
+  console.log(before);
+  console.log(after);
+  $(before).css("display", "none");
+  $(after).css("display", "block");
+}
 
 function keyDown(e) {
   if ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
@@ -92,6 +173,7 @@ function keyDown(e) {
       e.preventDefault();
     } else if (e.keyCode == 80) { //80 = p
       flag = ["new_project", 4];
+      before_status = "create new project";
       $("#status").addClass("new_project").text("create new project");
       result_htmls = [];
       results = [];
@@ -124,13 +206,19 @@ function keyDown(e) {
     }
     window.scrollTo(0, $(result_htmls[selected_content])[0].offsetTop - 102);
     $(result_htmls[selected_content]).toggleClass("selected", true);
+  } else if (e.keyCode == 39) {
+    if ($("#welcome .page").length == page_num)return;
+    changeTourPage(true);
+  } else if (e.keyCode == 37) {
+    if (page_num == 1)return;
+    changeTourPage(false);
   }
 }
 
 function selectEvent(shift) {
   if (flag[0] == "new_bookmark" || flag[0] == "new_project_bookmark") {
     createBookmark();
-  } else if (flag[0] == "new_project"){
+  } else if (flag[0] == "new_project") {
     let name = document.getElementById("search-keyword-field").value;
     newProject(name, current_tab.windowId);
     window.close();
@@ -171,6 +259,7 @@ function selectResult(new_tab) {
 }
 
 function searchEvent(e) {
+  if (tour) return;
   if (flag[0] != "search")return;
   labels = [];
   selected_content = 1;
@@ -196,7 +285,7 @@ function searchEvent(e) {
     }
     if (!results[i].title) results[i].title = "(no name)";
 
-    let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl , result_htmls.length);
+    let result = createResult(results[i].type, results[i].title, results[i].url, results[i].favIconUrl, result_htmls.length);
 
     if (i == 0)$(result).toggleClass("selected", true);// 一番最初に選択させておく
     result_htmls.push(result);
@@ -231,9 +320,9 @@ function createResult(type, title, url, favicon_url, i) {
   });
   let label_div = $("<div></div>");
   let name = $("<a></a>", {
-      text: title,
-      href: url,
-      "class": "searchresult"
+    text: title,
+    href: url,
+    "class": "searchresult"
   });
   let favicon_obj, url_obj;
   if (type == "bookmark" || type == "tab") {
@@ -260,10 +349,20 @@ function newBookmarkEvent(level) {
   if (level == 4) {
     results = all_projects;
     flag = ["new_project_bookmark", level];
-    $("#status").addClass("new_project_bookmark").text("add new bookmark to project");
+    before_status = "add to existing project";
+    $("#status").addClass("new_project_bookmark").text("add to existing project");
   } else {
     flag = ["new_bookmark", level];
-    $("#status").addClass("new_bookmark").text("add new bookmark");
+    let name;
+    if (level == 1) {
+      name = "add to favorites";
+    } else if (level == 2) {
+      name = "add to check later";
+    } else {
+      name = "add to other bookmarks";
+    }
+    before_status = name;
+    $("#status").addClass("new_bookmark").text(name);
     results.push(all_folders[level - 1]);
     results = results.concat(all_folders[level - 1].children);
   }

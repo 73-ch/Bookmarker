@@ -4,5 +4,8 @@
   },
   "searchfield": {
     "message":"tab・bookmark・projectを検索"
+  },
+  "welcomeTitle": {
+    "message":"Bookmarkerへようこそ"
   }
 }

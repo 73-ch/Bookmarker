@@ -1,199 +1,440 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
-	<script type="text/javascript" src="popup.js"></script>
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="popup.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i" rel="stylesheet">
 </head>
 <body>
+<div id="welcome">
+  <div id="page1" class="page">
+    <h1 class="welcome-title">Welcome to Bookmarker</h1>
+    <p>これからBookmarkerの使い方を説明します。</p>
+    <a class="start-tour">次へ</a>
+    <a class="exit-tour">説明を見ない</a>
+  </div>
+  <div id="page2" class="page">
+    <h1>ブックマークの登録</h1>
+    <img title="intro2" id="intro2" class="intro-image"
+         src="images/intro2.png"/>
+    <a class="prev button">戻る</a>
+    <a class="next button">次へ</a>
+  </div>
+  <div id="page3" class="page">
+    <h1>名前とフォルダの選択</h1>
+    <img title="intro3" id="intro3" class="intro-image"
+         src="images/intro3.png"/>
+    <a class="prev button">戻る</a>
+    <a class="next button">次へ</a>
+  </div>
+  <div id="page3" class="page">
+    <h1>重要度に応じたブックマーク</h1>
+    <div id="intro-level-1">
+      <img title="add this page to favorites" class="button-image"
+           src="images/favorites.png"/>
+      <p>favorites</p>
+      <h2>コマンド : "command + 1"</h2>
+      <p>頻繁に使うブックマークを登録します。</p>
+    </div>
+    <div id="intro-level-2">
+      <img title="add this page to check later" class="button-image"
+           src="images/check.png"/>
+      <p>check</p>
+      <h2>コマンド : "command + 2"</h2>
+      <p>あとで見るブックマークを登録します。一度見ると削除されます。</p>
+    </div>
+    <div id="intro-level-3">
+      <img title="add this page to other bookmarks" class="button-image"
+           src="images/others.png"/>
+      <p>others</p>
+      <h2>コマンド : "command + 3"</h2>
+      <p>その他のブックマークを登録します。</p>
+    </div>
+    <div id="intro-level-4">
+      <img title="add this page to project folders" class="button-image"
+           src="images/addproj.png"/>
+      <p></p>
+      <h2>コマンド : "command + 4"</h2>
+      <p>プロジェクトにブックマークを登録します。プロジェクトについてはあとで説明します。</p>
+    </div>
+    <a class="prev button">戻る</a>
+    <a class="next button">次へ</a>
+  </div>
+  <div id="page5" class="page">
+    <h1>検索</h1>
+    <img title="intro5" id="intro5" class="intro-image"
+         src="images/intro5.png"/>
+    <a class="prev button">戻る</a>
+    <a class="next button">次へ</a>
+  </div>
+  <div id="page6" class="page">
+    <h1>検索結果</h1>
+    <img title="intro6" id="intro6" class="intro-image"
+         src="images/intro6.png"/>
+    <div class="text">
+      <p>検索結果は矢印キーで移動して、enterキーで開くことができます。</p>
+      <p>shiftキーを押しながらenterキーを押すことで、新しいタブで開きます。</p>
+      <p>viやemacsの"command / ctrl + n / p"での移動にも対応しています。</p>
+      <p>左クリック・右クリックでも現在のタブで開くか新しいタブで開くことができます。</p>
+    </div>
+    <a class="prev button">戻る</a>
+    <a class="next button">次へ</a>
+  </div>
+  <div id="page7" class="page">
+    <h1>アクション</h1>
+    <img title="intro7" id="intro7" class="intro-image"
+         src="images/intro7.png"/>
+    <a class="prev button">戻る</a>
+    <a class="next button">次へ</a>
+  </div>
+  <div id="page8" class="page">
+    <h1>アクション</h1>
+    <img title="intro8" id="intro8" class="intro-image"
+         src="images/intro8.png"/>
+    <a class="prev button">戻る</a>
+    <a class="next button">次へ</a>
+  </div>
+  <div id="page9" class="page">
+    <h1>プロジェクト</h1>
+    <p>プロジェクトは、ウィンドウの中のタブを全て管理します。</p>
+    <p>ウィンドウを閉じるだけで、最後に開いていたタブを自動でプロジェクトのブックマークに登録します。</p>
+    <p>それによって、次に作業を再開するときには前回のタブが復元されます。</p>
+    <p>もちろん、タブを消せばウィンドウを閉じるときに自動的に削除されます。</p>
+    <a class="prev button">戻る</a>
+    <a class="next button">次へ</a>
+  </div>
+  <div id="page10" class="page">
+    <h1>プロジェクトを作成する方法</h1>
+    <p>1. ウィンドウにプロジェクトに入れたいタブを全て開きます。</p>
+    <img title="intro10" id="intro10" class="intro-image"
+         src="images/intro10.png"/>
+    <p>2. "command / ctrl + p" か　popup windowの中のプロジェクト作成ボタンを押す。</p>
+    <p>3. 名前を入力して、enterキーを押すとプロジェクトに登録されます。</p>
+    <a class="prev button">戻る</a>
+    <a class="next button">次へ</a>
+  </div>
+  <div id="page11" class="page">
+    <h1>終了</h1>
+    <p>以上で使い方の説明は終了です。</p>
+    <a class="links" href="https://goo.gl/jqOOUo">フィードバックはこちら</a>
+    <a class="links" href="https://goo.gl/f4iQY7">レビューはこちら</a>
+    <a class="links" href="https://github.com/nami634/Bookmarker">Github</a>
+    <a class="prev button">戻る</a>
+    <a class="exit-tour next button">終わる</a>
+  </div>
+</div>
 <div id="nav">
-	<form id="search-keyword">
-		<input type="text" id="search-keyword-field" placeholder="" autocomplete="off" />
-		<input type="image" id="submit" title="go to selected page" value="search" src="images/placeholder.png" />
-	</form>
-	<div id="level-selection">
-		<div class="img-wrapper"><img title="add this page to check later" id="level-1" class="button-image" src="images/check.png" data-level="1" alt="check button"/></div>
-		<div class="img-wrapper"><img title="add this page to favorites" id="level-2" class="button-image" src="images/favorites.png" data-level="2" alt="favorite button"/></div>
-		<div class="img-wrapper"><img title="add this page to other bookmarks" id="level-3" class="button-image" src="images/others.png" data-level="3" alt="other button"/></div>
-		<div class="img-wrapper"><img title="add this page to project folders" id="level-4" class="button-image" src="images/projects.png" data-level="4" alt="project button"/></div>
-		<div class="img-wrapper"><img title="add this page to project folders" id="level-5" class="button-image" src="images/addproj.png" data-level="5" alt="project button"/></div>
+  <form id="search-keyword">
+    <input type="text" id="search-keyword-field" placeholder="" autocomplete="off"/>
+    <input type="image" id="submit" title="go to selected page" value="search" src="images/placeholder.png"/>
+  </form>
+  <div id="level-selection">
+    <div class="img-wrapper"><img title="add this page to check later" id="level-1" class="button-image"
+                                  src="images/check.png" data-level="1" alt="check button"/></div>
+    <div class="img-wrapper"><img title="add this page to favorites" id="level-2" class="button-image"
+                                  src="images/favorites.png" data-level="2" alt="favorite button"/></div>
+    <div class="img-wrapper"><img title="add this page to other bookmarks" id="level-3" class="button-image"
+                                  src="images/others.png" data-level="3" alt="other button"/></div>
+    <div class="img-wrapper"><img title="add this page to project folders" id="level-4" class="button-image"
+                                  src="images/addproj.png" alt="project button"/></div>
+    <div class="img-wrapper"><img title="create this window new project" id="new-project" class="button-image"
+                                  src="images/projects.png" data-level="4" alt="project button"/></div>
     <div id="status"></div>
-	</div>
+    <div id="help-box" class="img-wrapper">
+      <img title="add this page to check later" id="help" class="button-image"
+           src="images/help.png" alt="check button"/>
+    </div>
+  </div>
 
 </div>
-	<div id="search-results-container"></div>
+<div id="search-results-container"></div>
 </body>
 <style>
-	/*body and globals*/
-	body{
-		width: 450px;
-		font-family: 'Open Sans', sans-serif;
-		padding:15px;
-		background-color: rgba(255, 255, 255, 0.9);
-		position:relative;
-	}
-	.caption {
-		font-size:10px;
-		text-transform: uppercase;
-		font-style: italic;
-	}
-	.selected {
-		background-color:#d4f0ff;
-	}
-	.selected p {
-		color:#adb9bf;
-	}
-	/*navigation*/
-	#nav {
-		position: fixed;
-		top: 0;
-		height:auto;
-		overflow: visible;
-		background-color: #fff;
-	}
-	/*search*/
-	input[type=text] {
-		font-size:24px;
-		color: #000;
-		width: 450px;
-		height: 50px;
-		box-sizing: border-box;
-		padding: 10px 5px;
-		border: 0;
-		border-bottom: 2px solid #363636;
-	}
-	input[type=text]:focus {
-		outline: 0;
-	}
-	::-webkit-input-placeholder {
-  	font-style: italic;
-		color: #b2d7fe;
-	}
-	input[type=submit] {
-		width: 50px;
-		outline: none;
-		box-shadow: none;
-		border: none;
-	}
+  /*body and globals*/
+  body {
+    width: 450px;
+    font-family: 'Open Sans', sans-serif;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.9);
+    position: relative;
+  }
 
-	h3{
-		background-color: #f1f4f7;
-		margin: 0;
-		padding: 2px 5px;
-		text-transform: uppercase;
-		font-size: 10px;
-	}
-	#search-keyword {
-		position: absolute;
-		width: 460px;
-		height:45px;
-		background-color: white;
-		z-index: 2;
-		top:15px;
-	}
-	#submit {
-		cursor: pointer;
-		height:30px;
-		padding:3px;
-		position: absolute;
+  .caption {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-style: italic;
+  }
+
+  .selected {
+    background-color: #d4f0ff;
+  }
+
+  .selected p {
+    color: #adb9bf;
+  }
+
+  /*navigation*/
+  #nav {
+    position: fixed;
+    top: 0;
+    height: auto;
+    overflow: visible;
+    background-color: #fff;
+  }
+
+  /*search*/
+  input[type=text] {
+    font-size: 24px;
+    color: #000;
+    width: 450px;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 10px 5px;
+    border: 0;
+    border-bottom: 2px solid #363636;
+  }
+
+  input[type=text]:focus {
+    outline: 0;
+  }
+
+  ::-webkit-input-placeholder {
+    font-style: italic;
+    color: #b2d7fe;
+  }
+
+  input[type=submit] {
+    width: 50px;
+    outline: none;
+    box-shadow: none;
+    border: none;
+  }
+
+  h3 {
+    background-color: #f1f4f7;
+    margin: 0;
+    padding: 2px 5px;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+
+  #search-keyword {
+    position: absolute;
+    width: 460px;
+    height: 45px;
+    background-color: white;
+    z-index: 2;
+    top: 15px;
+  }
+
+  #submit {
+    cursor: pointer;
+    height: 30px;
+    padding: 3px;
+    position: absolute;
     right: 8px;
     top: 5px;
-	}
-	#submit:focus {
-		outline:none;
-	}
-	/*search results*/
-	.sr-entry {
-		display: flex;
-		flex-direction: column;
-		padding: 5px;
-		border-radius: 5px;
-	}
-	a.searchresult {
-		font-size: 13px;
-		display: table-cell;
-		color:#161616;
-		text-decoration: none;
-		/*line-height: 1.8em;*/
-		position:relative;
-		text-overflow: ellipsis;
-		overflow:hidden;
-		white-space: nowrap;
-		max-width:370px;
-	}
-	a:focus {
-		color: #1a8bb6;
-		outline:none;
-	}
-	a:active {
-		color:#0277b9;
-	}
-	#search-results-container {
-		position: absolute;
-		top:90px;
-		width:450px;
-		padding:5px;
-		margin: 5px 0 15px 0;
-		overflow: hidden;
-		z-index: -1;
-	}
-	.favicon {
-		float:left;
-		width:15px;
-		padding-right:5px;
-	}
-	.url-text {
-		color: #d8d8d8;
-		padding:0;
-		margin:0;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		font-style: oblique;
-		overflow: hidden;
-	}
-	/*level selection*/
-	#level-selection {
-		width:500px;
-		position: absolute;
-		top: 65px;
-		display: flex;
-		flex-direction: row;
-		background-color: white;
-	}
-	.button-image {
-		height: 20px;
-		width:auto;
-		cursor: pointer;
-	}
-	button:hover {
-		background-color: #f1f4f6;
-	}
-	button:focus {
-		outline: none;
-		box-shadow: 0 0 0.5px 1px #d9e6eb;
-	}
-	button:active {
-		background-color: #60bcff;
-		border: #58aeed;
-	}
-	.img-wrapper {
-		height:20px;
-		width:20px;
-		background-color: white;
-		display: inline-block;
-		margin: 10px 20px 0 0;
-	}
-	.img-wrapper:hover {
-		background-color: #0080FF;
-	}
-	/*status*/
-	#status {
-		padding:14px;
-		font-size: 10px;
-		text-transform: uppercase;
-		font-style: oblique;
-	}
+  }
+
+  #submit:focus {
+    outline: none;
+  }
+
+  /*search results*/
+  .sr-entry {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  a.searchresult {
+    font-size: 13px;
+    display: table-cell;
+    color: #161616;
+    text-decoration: none;
+    /*line-height: 1.8em;*/
+    position: relative;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 370px;
+  }
+
+  a:focus {
+    color: #1a8bb6;
+    outline: none;
+  }
+
+  a:active {
+    color: #0277b9;
+  }
+
+  #search-results-container {
+    position: absolute;
+    top: 90px;
+    width: 450px;
+    padding: 5px;
+    margin: 5px 0 15px 0;
+    overflow: hidden;
+    z-index: -1;
+  }
+
+  .favicon {
+    float: left;
+    width: 15px;
+    padding-right: 5px;
+  }
+
+  .url-text {
+    color: #d8d8d8;
+    padding: 0;
+    margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-style: oblique;
+    overflow: hidden;
+  }
+
+  /*level selection*/
+  #level-selection {
+    width: 500px;
+    position: absolute;
+    top: 65px;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+  }
+
+  .button-image {
+    height: 20px;
+    width: auto;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #f1f4f6;
+  }
+
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 0.5px 1px #d9e6eb;
+  }
+
+  button:active {
+    background-color: #60bcff;
+    border: #58aeed;
+  }
+
+  .img-wrapper {
+    height: 20px;
+    width: 20px;
+    background-color: white;
+    display: inline-block;
+    margin: 10px 20px 0 0;
+  }
+
+  .img-wrapper:hover {
+    background-color: #0080FF;
+  }
+
+  /*status*/
+  #status {
+    padding: 14px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-style: oblique;
+  }
+
+  #help-box {
+    position: fixed;
+    right: 20px;
+  }
+
+  #welcome {
+    display: none;
+    position: absolute;
+    height: 150px;
+    width: 100vw;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    background-color: white;
+    text-align: center;
+    margin: 0;
+  }
+
+  .page {
+    display: none;
+  }
+
+  #page1 h1 {
+    color: #60bcff;
+    font-size: 3.5em;
+
+  }
+
+  #page1 a {
+    width: 100%;
+    margin: 9px;
+  }
+
+  #welcome a {
+    color: #5f686e;
+  }
+
+  #welcome a:hover {
+    color: #60bcff;
+  }
+
+  #page1 .start-tour {
+    font-size: 8vh;
+  }
+
+  #page1 .exit-tour {
+    font-size: 5vh;
+    color: #5f686e;
+  }
+
+  #page1 .exit-tour:hover {
+    color: #8d9699;
+  }
+
+  #page1 p {
+    font-size: 7vh;
+  }
+
+  #page5 .text{
+    border-top: 1px solid #5f686e;
+    margin: 5px;
+  }
+
+  #page11 .links{
+    display: block;
+  }
+
+  #welcome .button {
+    display: inline-block;
+    font-size: 13px;
+    margin: 8px;
+    position: absolute;
+  }
+
+  .next {
+    text-align: right;
+    right: 25px;
+  }
+
+  .prev {
+    text-align: left;
+    left: 25px;
+  }
+
+  .intro-image {
+    width: 100%;
+  }
+
 </style>
 </html>

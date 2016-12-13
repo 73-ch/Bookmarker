@@ -4,5 +4,8 @@
   },
   "searchfield": {
     "message":"search bookmarks..."
+  },
+  "welcomeTitle": {
+    "message":"Welcome to Bookmarker"
   }
 }
