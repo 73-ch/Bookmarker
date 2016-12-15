@@ -118,9 +118,16 @@ window.onload = function () {
   });
 
   function tour() {
+    let texts = $('.intro-text');
+    for (let i = 1; i <= texts.length; i++){
+      console.log("introtext" + i);
+      console.log(chrome.i18n.getMessage("introtext" + i));
+      $(texts.get(i - 1)).text(chrome.i18n.getMessage("introtext" + i));
+    }
+    $(".next").text(chrome.i18n.getMessage("next"));
+    $('.prev').text(chrome.i18n.getMessage("prev"));
     page_num = 1;
     $("#welcome").css("display", "block");
-    $("#welcome .welcome-title").text(chrome.i18n.getMessage("welcomeTitle"));
     $("#page1").css("display", "block");
     $("#welcome .start-tour").click(function () {
       changeTourPage(true);
@@ -150,8 +157,6 @@ function changeTourPage(dir) {
     after = $("#welcome .page").get(page_num - 2);
     page_num--;
   }
-  console.log(before);
-  console.log(after);
   $(before).css("display", "none");
   $(after).css("display", "block");
 }

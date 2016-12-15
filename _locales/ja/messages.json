@@ -5,7 +5,109 @@
   "searchfield": {
     "message":"tab・bookmark・projectを検索"
   },
-  "welcomeTitle": {
+  "next": {
+    "message":"次へ>"
+  },
+  "prev":{
+    "message":"<戻る"
+  },
+  "introtext1":{
     "message":"Bookmarkerへようこそ"
+  },
+  "introtext2":{
+    "message":"これからBookmarkerの使い方を説明します。"
+  },
+  "introtext3":{
+    "message":"ブックマークの登録"
+  },
+  "introtext4":{
+    "message":"名前とフォルダの選択"
+  },
+  "introtext5":{
+    "message":"重要度に応じたブックマーク"
+  },
+  "introtext6":{
+    "message":"コマンド : \"command + 1\""
+  },
+  "introtext7":{
+    "message":"頻繁に使うブックマークを登録します。"
+  },
+  "introtext8":{
+    "message": "コマンド : \"command + 2\""
+  },
+  "introtext9":{
+    "message":"あとで見るブックマークを登録します。一度見ると削除されます。"
+  },
+  "introtext10":{
+    "message": "コマンド : \"command + 3\""
+  },
+  "introtext11":{
+    "message":"その他のブックマークを登録します。"
+  },
+  "introtext12":{
+    "message": "コマンド : \"command + 4\""
+  },
+  "introtext13":{
+    "message":"プロジェクトにブックマークを登録します。プロジェクトについてはあとで説明します。"
+  },
+  "introtext14":{
+    "message":"検索"
+  },
+  "introtext15":{
+    "message":"検索結果"
+  },
+  "introtext16":{
+    "message":"検索結果は矢印キーで移動して、enterキーで開くことができます。"
+  },
+  "introtext17":{
+    "message":"shiftキーを押しながらenterキーを押すことで、新しいタブで開きます。"
+  },
+  "introtext18":{
+    "message":"左クリック・右クリックでも現在のタブで開くか新しいタブで開くことができます。"
+  },
+  "introtext19":{
+    "message":"アクション"
+  },
+  "introtext20":{
+    "message":"ヘルプ"
+  },
+  "introtext21":{
+    "message":"プロジェクト"
+  },
+  "introtext22":{
+    "message":"プロジェクトは、ウィンドウの中のタブを全て管理します。"
+  },
+  "introtext23":{
+    "message":"ウィンドウを閉じるだけで、最後に開いていたタブを自動でプロジェクトのブックマークに登録します。"
+  },
+  "introtext24":{
+    "message":"それによって、次に作業を再開するときには前回のタブが復元されます。"
+  },
+  "introtext25":{
+    "message":"もちろん、タブを消せばウィンドウを閉じるときに自動的に削除されます。"
+  },
+  "introtext26":{
+    "message":"プロジェクトを作成する方法"
+  },
+  "introtext27":{
+    "message":"1. ウィンドウにプロジェクトに入れたいタブを全て開きます。"
+  },
+  "introtext28":{
+    "message": "2. \"command / ctrl + p\" か　popup windowの中のプロジェクト作成ボタンを押す。"
+  },
+  "introtext29":{
+    "message":"3. 名前を入力して、enterキーを押すとプロジェクトに登録されます。"
+  },
+  "introtext30":{
+    "message":"終了"
+  },
+  "introtext31":{
+    "message":"以上で使い方の説明は終了です。"
+  },
+  "introtext32":{
+    "message":"フィードバックはこちら"
+  },
+  "introtext33":{
+    "message":"レビューはこちら"
   }
 }
