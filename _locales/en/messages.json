@@ -6,108 +6,108 @@
     "message":"search bookmarks..."
   },
   "next": {
-    "message":"次へ>"
+    "message":"continue"
   },
   "prev":{
-    "message":"<戻る"
+    "message":"go back"
   },
   "introtext1":{
-    "message":"Bookmarkerへようこそ"
+    "message":"Thanks for downloading Bookmarker!"
   },
   "introtext2":{
-    "message":"これからBookmarkerの使い方を説明します。"
+    "message":"Here are a few tips to get you started."
   },
   "introtext3":{
-    "message":"ブックマークの登録"
+    "message":"Adding New Bookmarks"
   },
   "introtext4":{
-    "message":"名前とフォルダの選択"
+    "message":"Naming and Selecting Destination Folders"
   },
   "introtext5":{
-    "message":"重要度に応じたブックマーク"
+    "message":"Categorizing Bookmarks"
   },
   "introtext6":{
-    "message":"コマンド : \"command + 1\""
+    "message":"keyboard shortcut: \"command + 1\""
   },
   "introtext7":{
-    "message":"頻繁に使うブックマークを登録します。"
+    "message":"sites you use all the time"
   },
   "introtext8":{
-    "message": "コマンド : \"command + 2\""
+    "message": "keyboard shortcut: \"command + 2\""
   },
   "introtext9":{
-    "message":"あとで見るブックマークを登録します。一度見ると削除されます。"
+    "message":"sites you want to save for later—these bookmarks will be deleted once you look at them"
   },
   "introtext10":{
-    "message": "コマンド : \"command + 3\""
+    "message": "keyboard shortcut: \"command + 3\""
   },
   "introtext11":{
-    "message":"その他のブックマークを登録します。"
+    "message":"put all your other bookmarks in this category"
   },
   "introtext12":{
-    "message": "コマンド : \"command + 4\""
+    "message": "keyboard shortcut: \"command + 4\""
   },
   "introtext13":{
-    "message":"プロジェクトにブックマークを登録します。プロジェクトについてはあとで説明します。"
+    "message":"'project' bookmarks. we'll explain this in a minute!"
   },
   "introtext14":{
-    "message":"検索"
+    "message":"Search"
   },
   "introtext15":{
-    "message":"検索結果"
+    "message":"Search Results"
   },
   "introtext16":{
-    "message":"検索結果は矢印キーで移動して、enterキーで開くことができます。"
+    "message":"Navigate search results with arrow keys, and open them with the Return key."
   },
   "introtext17":{
-    "message":"shiftキーを押しながらenterキーを押すことで、新しいタブで開きます。"
+    "message":"Hold down the Shift key with the Return key to open the bookmark in a new tab."
   },
   "introtext18":{
-    "message":"左クリック・右クリックでも現在のタブで開くか新しいタブで開くことができます。"
+    "message":""
   },
   "introtext19":{
-    "message":"アクション"
+    "message":"Status"
   },
   "introtext20":{
-    "message":"ヘルプ"
+    "message":"Help"
   },
   "introtext21":{
-    "message":"プロジェクト"
+    "message":"Projects"
   },
   "introtext22":{
-    "message":"プロジェクトは、ウィンドウの中のタブを全て管理します。"
+    "message":"Projects are a neat way to manage a workspace with your tabs."
   },
   "introtext23":{
-    "message":"ウィンドウを閉じるだけで、最後に開いていたタブを自動でプロジェクトのブックマークに登録します。"
+    "message":"They remember all the tabs you have open in a window, so that with one click you can bring them all up."
   },
   "introtext24":{
-    "message":"それによって、次に作業を再開するときには前回のタブが復元されます。"
+    "message":"And of course, if you open or close tabs in the window, those changes will be there next time you open the project."
   },
   "introtext25":{
-    "message":"もちろん、タブを消せばウィンドウを閉じるときに自動的に削除されます。"
+    "message":"Projects are a great way to work productively, without having a million tabs open at a time."
   },
   "introtext26":{
-    "message":"プロジェクトを作成する方法"
+    "message":"How to Create a Project"
   },
   "introtext27":{
-    "message":"1. ウィンドウにプロジェクトに入れたいタブを全て開きます。"
+    "message":"1. In a single window, open all the tabs you want in your project."
   },
   "introtext28":{
-    "message": "2. \"command / ctrl + p\" か　popup windowの中のプロジェクト作成ボタンを押す。"
+    "message": "2. Use the keyboard shortcut \"command / ctrl + p\", or click the 'create project' button on the menu."
   },
   "introtext29":{
-    "message":"3. 名前を入力して、enterキーを押すとプロジェクトに登録されます。"
+    "message":"3. Type in a name for the project and press enter"
   },
   "introtext30":{
-    "message":"終了"
+    "message":"That's it!"
   },
   "introtext31":{
-    "message":"以上で使い方の説明は終了です。"
+    "message":"We hope you'll enjoy using Bookmarker!"
   },
   "introtext32":{
-    "message":"フィードバックはこちら"
+    "message":"Give us feedback!"
   },
   "introtext33":{
-    "message":"レビューはこちら"
+    "message":"Write a review!"
   }
 }

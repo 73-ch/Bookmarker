@@ -6,10 +6,10 @@
     "message":"tab・bookmark・projectを検索"
   },
   "next": {
-    "message":"次へ>"
+    "message":"次へ"
   },
   "prev":{
-    "message":"<戻る"
+    "message":"戻る"
   },
   "introtext1":{
     "message":"Bookmarkerへようこそ"

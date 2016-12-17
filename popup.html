@@ -12,8 +12,10 @@
   <div id="page1" class="page">
     <h1 id="introtext-1" class="welcome-title intro-text">Welcome to Bookmarker</h1>
     <p id="introtext-2" class="intro-text"></p>
-    <a class="start-tour next">next&gt;</a>
-    <a class="exit-tour">説明を見ない</a>
+    <div class="tour-footer">
+      <a class="start-tour next">next&gt;</a>
+      <a class="exit-tour">説明を見ない</a>
+    </div>
   </div>
   <div id="page2" class="page">
     <h1 id="introtext-3" class="intro-text"></h1>
@@ -34,29 +36,29 @@
     <div id="intro-level-1">
       <img title="add this page to favorites" class="button-image"
            src="images/favorites.png"/>
-      <p>favorites</p>
-      <h2 id="introtext-6" class="intro-text"></h2>
+      <h2>Favorites</h2>
+      <p id="introtext-6" class="intro-text"></p>
       <p id="introtext-7" class="intro-text"></p>
     </div>
     <div id="intro-level-2">
       <img title="add this page to check later" class="button-image"
            src="images/check.png"/>
-      <p>check</p>
-      <h2 id="introtext-8" class="intro-text"></h2>
+      <h2>Check Later</h2>
+      <p id="introtext-8" class="intro-text"></p>
       <p id="introtext-9" class="intro-text"></p>
     </div>
     <div id="intro-level-3">
       <img title="add this page to other bookmarks" class="button-image"
            src="images/others.png"/>
-      <p>others</p>
-      <h2 id="introtext-10" class="intro-text"></h2>
+      <h2>Other bookmarks</h2>
+      <p id="introtext-10" class="intro-text"></p>
       <p id="introtext-11" class="intro-text"></p>
     </div>
     <div id="intro-level-4">
       <img title="add this page to project folders" class="button-image"
            src="images/addproj.png"/>
-      <p></p>
-      <h2 id="introtext-12" class="intro-text"></h2>
+      <h2>Project bookmarks</h2>
+      <p id="introtext-12" class="intro-text"></p>
       <p id="introtext-13" class="intro-text"></p>
     </div>
     <a class="prev button">&lt;prev</a>
@@ -346,7 +348,7 @@
     text-transform: uppercase;
     font-style: oblique;
   }
-
+  /*help tour*/
   #help-box {
     position: fixed;
     right: 20px;
@@ -356,7 +358,7 @@
     display: none;
     position: absolute;
     height: 150px;
-    width: 100vw;
+    width: 480px;
     z-index: 10;
     top: 0;
     left: 0;
@@ -371,8 +373,7 @@
 
   #page1 h1 {
     color: #60bcff;
-    font-size: 3.5em;
-
+    font-size: 30px;
   }
 
   #page1 a {
@@ -425,15 +426,27 @@
     text-align: right;
     right: 25px;
   }
-
+  .next::after {
+    content:"\2192";
+  }
   .prev {
     text-align: left;
     left: 25px;
   }
-
+  .prev::before {
+    content:"\2190";
+  }
   .intro-image {
     width: 100%;
   }
-
+  .intro-text {
+    overflow: visible;
+  }
+  .exit-tour, .start-tour {
+    cursor: pointer;
+  }
+  .tour-footer {
+    margin:20px;
+  }
 </style>
 </html>
