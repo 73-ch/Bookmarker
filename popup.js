@@ -271,7 +271,7 @@ function selectResult(new_tab) {
 }
 
 function searchEvent(e) {
-  if (tour) return;
+  if (page_num) return;
   if (flag[0] != "search")return;
   labels = [];
   selected_content = 1;
