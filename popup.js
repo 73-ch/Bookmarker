@@ -178,7 +178,7 @@ function keyDown(e) {
       e.preventDefault();
     } else if (e.keyCode == 80) { //80 = p
       e.preventDefault();
-      chrome.storage.get("projects", function (data) {
+      chrome.storage.local.get("projects", function (data) {
         let result = false;
         Object.values(data["projects"]).forEach(function (project) {
           if (project["open_window"] == current_tab.windowId)result = true;
