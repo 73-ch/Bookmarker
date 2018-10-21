@@ -4,6 +4,7 @@ var current_tab,// 現在のタブの情報
   result_max = 10,// 検索結果の上限(後でuser_settingで変えられるようにする予定)
   results = [],// 検索結果のarray
   result_htmls = [],// 検索結果のhtmlのarray(後でjQueryの配列に)
+  select_mode = "key";
   all_windows = [],
   all_tabs = [],
   all_projects = [],
@@ -23,6 +24,11 @@ window.onload = function () {
       chrome.storage.local.set(data);
     }
   });
+
+  window.addEventListener('mousemove', function (e) {
+    select_mode = "mouse";
+  });
+
   var container = document.getElementById("search-results-container");
   var form = document.getElementById("search-keyword-field");
   $("#status").addClass("search").text("search");
@@ -199,6 +205,7 @@ function keyDown(e) {
     selectEvent(e.shiftKey);
     e.preventDefault();
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
+    select_mode = "key";
     $("#search-results-container > .selected").toggleClass("selected", false);
     if (selected_content < result_htmls.length - 1) {
       selected_content++;
@@ -324,6 +331,7 @@ function createResult(type, title, url, favicon_url, i) {
         selectEvent(true);
       },
       mouseover: function () {
+        if (select_mode !== "mouse") return;
         $("#search-results-container").find("> .selected").not(this).toggleClass("selected", false);
         selected_content = i;
         $(this).toggleClass("selected", true);
