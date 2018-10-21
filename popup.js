@@ -31,6 +31,8 @@ window.onload = function () {
 
   var container = document.getElementById("search-results-container");
   var form = document.getElementById("search-keyword-field");
+  form.focus();
+
   $("#status").addClass("search").text("search");
 
   window.addEventListener("keydown", keyDown, false);
