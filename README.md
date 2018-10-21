@@ -1,6 +1,8 @@
 # Bookmarker
 あなたのメモリを解放するブックマークマネージャー
 
+バグや実装希望の機能があったら、Issueに投げてください
+
 ### install
  1. [chrome web store](https://chrome.google.com/webstore/detail/bookmarker/glhpfpaemdkplbllfmkbigklacjneoba)でダウンロードしてください
  <img src="images/store page.png">
@@ -95,3 +97,4 @@
     
 使ってみたかたはぜひフィードバッグをお願いします！！
 [フィードバッグ](https://goo.gl/forms/AxniAdIRad9EZg2Y2)
+ 
