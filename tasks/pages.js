@@ -20,6 +20,8 @@ const ENV = args.production ? 'production' : 'development';
 gulp.task('pages:html', () => {
   return gulp.src('app/pages/**/*.html')
     .pipe(gulpreplace(/(\w+)(\.png|\.jpg)/i, '../images/$1$2'))
+    .pipe(gulpreplace(/(\w+)(\.js)/i, '../scripts/$1$2'))
+    .pipe(gulpreplace(/(\w+)(\.css|\.scss|\.less)/i, '../styles/$1$2'))
     .pipe(gulprename((path) => {
       path.dirname = '/'
     }))
