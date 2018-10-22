@@ -1,5 +1,7 @@
 import gulp from 'gulp'
 import gulpif from 'gulp-if'
+import gulpreplace from 'gulp-replace'
+import gulprename from 'gulp-rename'
 import gutil from 'gulp-util'
 import sourcemaps from 'gulp-sourcemaps'
 import less from 'gulp-less'
@@ -17,6 +19,10 @@ const ENV = args.production ? 'production' : 'development';
 
 gulp.task('pages:html', () => {
   return gulp.src('app/pages/**/*.html')
+    .pipe(gulpreplace(/(\w+)(\.png|\.jpg)/i, '../images/$1$2'))
+    .pipe(gulprename((path) => {
+      path.dirname = '/'
+    }))
     .pipe(gulp.dest(`dist/${args.vendor}/pages`))
     .pipe(gulpif(args.watch, livereload()));
 });

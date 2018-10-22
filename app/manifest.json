@@ -22,7 +22,7 @@
       "38": "icons/icon-38.png"
     },
     "default_title": "Bookmarker",
-    "default_popup": "pages/popup/popup.html"
+    "default_popup": "pages/popup.html"
   },
   "content_scripts": [
     {
@@ -36,9 +36,9 @@
       "run_at": "document_end"
     }
   ],
-  "options_page": "pages/options/options.html",
+  "options_page": "pages/options.html",
   "options_ui": {
-    "page": "pages/options/options.html",
+    "page": "pages/options.html",
     "chrome_style": true
   },
   "permissions": [
