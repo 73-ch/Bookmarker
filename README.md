@@ -5,18 +5,18 @@
 
 ### install
  1. [chrome web store](https://chrome.google.com/webstore/detail/bookmarker/glhpfpaemdkplbllfmkbigklacjneoba)でダウンロードしてください
- <img src="images/store page.png">
- 
+ <img src="app/images/store page.png">
+
  2. ダウンロード完了後、 Chromeの[拡張機能](chrome://extensions/)で、ページ一番下のキーボードショートカットを選択
- <img src="images/chrome extensions.png">
- 
+ <img src="app/images/chrome extensions.png">
+
  3. すると下のような画面が現れるので、「拡張機能を有効にする」の横の入力バーをクリックして、好きなショートカットを入力（キーボードで実際に押してください）（Ctrl / Command + Dを推奨）
      同じように、「ブックマークの削除」の横でもショートカットを入力します。（Ctrl / Command + Iを推奨）
- <img src="images/keyboardshortcut.png">
- 
- 
- 
- 
+ <img src="app/images/keyboardshortcut.png">
+
+
+
+
 
 
 ### how to use
@@ -28,18 +28,18 @@
 
     Bookmarkerは、より直感的な操作をするために、ブックマークの重要度に応じて、あなたのブックマークを分けます。
 
-    - Favorite <img src="images/favorites.png" width="20px"> (Command + 1 or Ctrl + 1）
+    - Favorite <img src="app/images/favorites.png" width="20px"> (Command + 1 or Ctrl + 1）
         SNSやニュースサイトなど、常にチェックするブックマークです。
 
-    - Check <img src="images/check.png" width="20px"> (Command + 2 or Ctrl + 2）
+    - Check <img src="app/images/check.png" width="20px"> (Command + 2 or Ctrl + 2）
         ちょっと気になったニュース記事やイベントのサイトなどを登録するためのブックマークです。次に開いた時に自動で消去されます。
         以前開いていた時のスクロールの情報が保持されます。
 
-    - Other <img src="images/others.png" width="20px"> (Command + 3 or Ctrl + 3）
+    - Other <img src="app/images/others.png" width="20px"> (Command + 3 or Ctrl + 3）
         上の2つには入らないような、時々使うブックマーク。
         以前開いていた時のスクロールの情報が保持されます。
 
-    - Project <img src="images/projects.png" width="20px"> (Command + 4 or Ctrl + 4）
+    - Project <img src="app/images/projects.png" width="20px"> (Command + 4 or Ctrl + 4）
         プロジェクトでまとめて、ブックマークを管理することができます。（詳しくはプロジェクトを参照）
         以前開いていた時のスクロールの情報が保持されます。
 
