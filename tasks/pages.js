@@ -34,6 +34,9 @@ gulp.task('pages:css', function () {
     .pipe(gulpif(args.sourcemaps, sourcemaps.init()))
     .pipe(gulpif(args.production, cleanCSS()))
     .pipe(gulpif(args.sourcemaps, sourcemaps.write()))
+    .pipe(gulprename((path) => {
+      path.dirname = '/'
+    }))
     .pipe(gulp.dest(`dist/${args.vendor}/styles`))
     .pipe(gulpif(args.watch, livereload()));
 });
@@ -44,6 +47,9 @@ gulp.task('pages:less', function () {
     .pipe(less({paths: ['./app']}).on('error', function (error) {
       gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
       this.emit('end')
+    }))
+    .pipe(gulprename((path) => {
+      path.dirname = '/'
     }))
     .pipe(gulpif(args.production, cleanCSS()))
     .pipe(gulpif(args.sourcemaps, sourcemaps.write()))
@@ -57,6 +63,9 @@ gulp.task('pages:sass', function () {
     .pipe(sass({includePaths: ['./app']}).on('error', function (error) {
       gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
       this.emit('end')
+    }))
+    .pipe(gulprename((path) => {
+      path.dirname = '/'
     }))
     .pipe(gulpif(args.production, cleanCSS()))
     .pipe(gulpif(args.sourcemaps, sourcemaps.write()))
@@ -78,6 +87,8 @@ gulp.task('pages:js', (cb) => {
       })].concat(args.production ? [new webpack.optimize.UglifyJsPlugin()] : []), module: {
         rules: [{
           test: /\.js$/, loader: 'babel-loader'
+        }, {
+          test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader']
         }]
       }
     }, webpack, (err, stats) => {
@@ -85,6 +96,9 @@ gulp.task('pages:js', (cb) => {
       log(`Finished '${colors.cyan('scripts')}'`, stats.toString({
         chunks: false, colors: true, cached: false, children: false
       }))
+    }))
+    .pipe(gulprename((path) => {
+      path.dirname = '/'
     }))
     .pipe(gulp.dest(`dist/${args.vendor}/scripts`))
     .pipe(gulpif(args.watch, livereload()));

@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import './popup.scss'
 
 var current_tab,// 現在のタブの情報
   all_bookmarks = [],// 全てのブックマークの情報
