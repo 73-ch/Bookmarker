@@ -430,11 +430,15 @@ function createTab(url, new_tab) {
   }
 }
 
-function openTab(tab) {
-  chrome.windows.update(tab.windowId, {focused: true}, function (response) {
-    chrome.tabs.update(tab.id, {selected: true});
-  });
-}
+const openTab = async (tab) => {
+  if (tab.windowId !== current_tab.windowId) {
+    await chrome.windows.update(tab.windowId, {focused: true});
+  }
+
+  await chrome.tabs.update(tab.id, {active: true});
+
+  window.close();
+};
 
 function getCurrentTab() {
   return new Promise(function (resolve, reject) {
