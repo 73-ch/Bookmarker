@@ -1,5 +1,7 @@
 import $ from 'jquery'
 import './popup.scss'
+import 'chrome-extension-async'
+import 'babel-polyfill'
 
 var current_tab,// 現在のタブの情報
   all_bookmarks = [],// 全てのブックマークの情報

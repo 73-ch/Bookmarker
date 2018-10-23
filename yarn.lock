@@ -1353,6 +1353,10 @@ chownr@^1.0.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.1.tgz#54726b8b8fff4df053c42187e801fb4412df1494"
 
+chrome-extension-async@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/chrome-extension-async/-/chrome-extension-async-3.3.0.tgz#bdfc4badfdd76cbf05e7701bb362d7cdd8fdd414"
+
 chromereload@0.x.x:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/chromereload/-/chromereload-0.0.2.tgz#3b9732b5d60752fbb5253023319220e59fe283b7"
