@@ -1,3 +1,4 @@
+// Libraries
 import $ from 'jquery'
 import './popup.scss'
 import 'chrome-extension-async'
@@ -9,8 +10,7 @@ var current_tab,// 現在のタブの情報
   result_max = 10,// 検索結果の上限(後でuser_settingで変えられるようにする予定)
   results = [],// 検索結果のarray
   result_htmls = [],// 検索結果のhtmlのarray(後でjQueryの配列に)
-  select_mode = "key", all_windows = [], all_tabs = [], all_projects = [], labels = [], flag = ["search", 0],
-  settings = null, page_num = false, before_status = null, all_folders = [];
+  select_mode = "key", all_windows = [], all_tabs = [], all_projects = [], labels = [], flag = ["search", 0], settings = null, page_num = false, before_status = null, all_folders = [];
 window.onload = function () {
   chrome.storage.local.get("user_settings", function (data) {
     settings = data["user_settings"];
@@ -42,7 +42,6 @@ window.onload = function () {
   });
 
   $('#new-project').click(function () {
-    console.log('read');
     flag = ["new_project", 4];
     $("#status").addClass("new_project").text("create new project");
     before_status = "create new project";
@@ -204,6 +203,7 @@ function keyDown(e) {
     selectEvent(e.shiftKey);
     e.preventDefault();
   } else if (e.keyCode == 9 || e.keyCode == 40) { //9 = tab, 40 = down arrow
+    e.preventDefault();
     select_mode = "key";
     $("#search-results-container > .selected").toggleClass("selected", false);
     if (selected_content < result_htmls.length - 1) {
@@ -215,6 +215,8 @@ function keyDown(e) {
     window.scrollTo(0, $(result_htmls[selected_content])[0].offsetTop - 102);
     $(result_htmls[selected_content]).toggleClass("selected", true);// 新しく選択されたobjectに"selected"をつける
   } else if (e.keyCode == 38) { //38 = up arrow
+    e.preventDefault();
+    select_mode = "key";
     $("#search-results-container > .selected").toggleClass("selected", false);
     if (selected_content > 1) {
       selected_content--;
